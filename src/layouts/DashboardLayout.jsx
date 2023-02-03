@@ -7,7 +7,7 @@ export default function DashboardLayout() {
     <section className="container flex w-full">
       <Sidebar />
       <Navbar />
-      <div className="ml-[240px] mt-[92px] w-full">
+      <div className="ml-[220px] mt-[116px] w-full px-6">
         <Outlet />
       </div>
     </section>

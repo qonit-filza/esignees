@@ -8,6 +8,7 @@ import AdminLog from '../views/adminLogin';
 import UploadPdf from '../views/UploadPdf';
 import { createBrowserRouter } from 'react-router-dom';
 import DashboardLayout from '../layouts/DashboardLayout';
+import InboxPage from '../views/InboxPage';
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Dashboard />,
+      },
+      {
+        path: '/inbox',
+        element: <InboxPage />,
       },
       {
         path: '/upload',
