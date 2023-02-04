@@ -2,7 +2,7 @@ import { NavLink, Link } from "react-router-dom";
 import logo from "../assets/img/logo-3.png";
 
 export default function Sidebar() {
-  const activeClass = "border-r-[3px] border-r-theme-3 font-semibold w-full text-sky-600";
+  const activeClass = "border-r-[3px] border-r-theme-3 font-semibold w-full";
   return (
     <>
       <section className="w-[240px] pl-8 fixed top-3">
