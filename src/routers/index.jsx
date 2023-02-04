@@ -10,6 +10,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import DashboardLayout from '../layouts/DashboardLayout';
 import InboxPage from '../views/InboxPage';
 import SettingsPage from '../views/SettingsPage';
+import ContactPage from '../views/ContactPage';
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/contacts',
-        element: <div>contacts</div>
+        element: <ContactPage/>
       },
       {
         path: '/organization',
