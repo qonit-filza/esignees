@@ -9,6 +9,7 @@ import UploadPdf from '../views/UploadPdf';
 import { createBrowserRouter } from 'react-router-dom';
 import DashboardLayout from '../layouts/DashboardLayout';
 import InboxPage from '../views/InboxPage';
+import SettingsPage from '../views/SettingsPage';
 
 const router = createBrowserRouter([
   {
@@ -19,8 +20,24 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
+        path: '/contacts',
+        element: <div>contacts</div>
+      },
+      {
+        path: '/organization',
+        element: <div>organization</div>
+      },
+      {
+        path: '/sent',
+        element: <div>sent</div>
+      },
+      {
         path: '/inbox',
         element: <InboxPage />,
+      },
+      {
+        path: '/settings',
+        element: <SettingsPage />,
       },
       {
         path: '/upload',
