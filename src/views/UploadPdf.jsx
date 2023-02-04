@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+// import axios from 'axios';
+// import { toDataURL } from '../helpers/imageHelper';
 
 function UploadPdf() {
   const [file, setFile] = useState('');
@@ -14,7 +16,16 @@ function UploadPdf() {
         type: 'pdf/setPdf',
         payload: res,
       });
+
+      dispatcher({
+        type: 'pdf/setOriginalName',
+        payload: file.name.replace('.pdf', ''),
+      });
     });
+
+    const date = new Date();
+
+    console.log(date.toLocaleString('ID-id'));
   }, [file]);
 
   const handleFileChange = (e) => {
@@ -35,6 +46,20 @@ function UploadPdf() {
     navigate('/render');
   };
 
+  // const testButton = async () => {
+  //   try {
+  //     const { data } = await axios.get('http://localhost:3000/signatures', {
+  //       headers: {
+  //         access_token:
+  //           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTEwOTE5fQ.r44hV91Xu1HXoNCzHFHJpZEuEDX63lUX2M5O7ipGkMs',
+  //       },
+  //     });
+  //     toDataURL(data.signature, (dataUrl) => console.log(dataUrl));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   return (
     <>
       <section className=" flex w-full mt-64">
@@ -50,6 +75,14 @@ function UploadPdf() {
           >
             Next
           </button>
+
+          {/* <button
+            onClick={testButton}
+            type="button"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 w-20 "
+          >
+            Test
+          </button> */}
         </div>
       </section>
     </>

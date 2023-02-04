@@ -13,11 +13,12 @@ import {
 } from '../helpers/pdfHelper';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { toDataURL } from '../helpers/imageHelper.js'; //!fix later
 
 function ViewPdf() {
   const designerRef = useRef<HTMLDivElement | null>(null);
   const designer = useRef<Designer | null>(null);
-  const { pdf } = useSelector((state: any) => state);
+  const { pdf, originalName } = useSelector((state: any) => state);
 
   useEffect(() => {
     let template: Template = getTemplate();
@@ -93,7 +94,7 @@ function ViewPdf() {
       const pdf = await generate({ template, inputs, options: {} });
       const blob = new Blob([pdf.buffer], { type: 'application/pdf' });
       // console.log(pdf);
-      console.log(blob);
+      console.log(originalName);
 
       // customRead(blob);
 
@@ -109,9 +110,11 @@ function ViewPdf() {
       const pdf = await generate({ template, inputs, options: {} });
       const blob = new Blob([pdf.buffer], { type: 'application/pdf' });
 
+      console.log(blob);
+
       const formData = new FormData();
-      formData.append('name', 'dokumen');
-      formData.append('file', blob);
+      formData.append('docName', originalName);
+      formData.append('file', blob, originalName);
 
       const { data } = await axios.post(
         'http://localhost:5001/sign-pdf',
@@ -143,9 +146,38 @@ function ViewPdf() {
         //   imgDataUrl = res;
         // });
 
-        const { data: imgDataUrl } = await axios.get(
-          'http://localhost:5001/signature-dataurl'
-        );
+        // const { data: imgDataUrl } = await axios.get(
+        //   'http://localhost:5001/signature-dataurl'
+        // );
+
+        const { data } = await axios.get('http://localhost:3000/signatures', {
+          headers: {
+            access_token:
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTEwOTE5fQ.r44hV91Xu1HXoNCzHFHJpZEuEDX63lUX2M5O7ipGkMs',
+          },
+        });
+
+        toDataURL(data.signature, (dataUrl: string) => {
+          //*works-2
+          if (designer.current) {
+            designer.current.updateTemplate(
+              Object.assign(cloneDeep(designer.current.getTemplate()), {
+                schemas: [
+                  {
+                    signature: {
+                      type: 'image',
+                      position: { x: 90, y: 100 },
+                      width: 45,
+                      height: 30,
+                    },
+                  },
+                ],
+                sampledata: [{ signature: dataUrl }],
+                columns: ['signature'],
+              })
+            );
+          }
+        });
 
         //*works
         // if (designer.current) {
@@ -184,26 +216,6 @@ function ViewPdf() {
 
         //   designer.current.updateTemplate(newTemplate);
         // }
-
-        //*works-2
-        if (designer.current) {
-          designer.current.updateTemplate(
-            Object.assign(cloneDeep(designer.current.getTemplate()), {
-              schemas: [
-                {
-                  signature: {
-                    type: 'image',
-                    position: { x: 90, y: 100 },
-                    width: 45,
-                    height: 30,
-                  },
-                },
-              ],
-              sampledata: [{ signature: imgDataUrl }],
-              columns: ['signature'],
-            })
-          );
-        }
 
         // console.log(pdf.basePdf);
 
