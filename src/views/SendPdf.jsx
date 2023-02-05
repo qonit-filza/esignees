@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 const access_token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTc4NDk3fQ.MMguoPKZSYeJGsJVtmbXn9klsuJG8pqqVYs8WKO0hl8';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTg1NDQzfQ.T4KUl26vYa5j0PXEmLjlVBQyZnBcT_SrcOw_JNX-T0g';
 
 function SendPdf() {
   const { pdf, originalName, signedPdf } = useSelector((state) => state);
 
   const [formValue, setFormValue] = useState({
-    contact: '',
+    email: '',
     message: '',
     privateKey: '',
   });
@@ -23,8 +23,9 @@ function SendPdf() {
   const onSendPdf = async () => {
     const formData = new FormData();
     formData.append('docName', originalName);
-    formData.append('contact', formValue.contact);
+    formData.append('email', formValue.email);
     formData.append('message', formValue.message);
+    formData.append('status', 'ongoing');
     formData.append('privateKey', formValue.privateKey);
     formData.append('file', signedPdf, originalName);
 
@@ -71,17 +72,17 @@ function SendPdf() {
               onChange={handleFormOnChange}
             />
             <label
-              htmlFor="contact"
+              htmlFor="email"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Contact
+              Recipient Email
             </label>
             <input
               onChange={handleFormOnChange}
-              value={formValue.contact}
+              value={formValue.email}
               type="text"
-              id="contact"
-              name="contact"
+              id="email"
+              name="email"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
 

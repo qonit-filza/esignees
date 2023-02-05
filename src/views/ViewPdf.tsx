@@ -16,7 +16,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toDataURL } from '../helpers/imageHelper.js'; //!fix later
 import { useNavigate } from 'react-router-dom';
 const access_token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTc4NDk3fQ.MMguoPKZSYeJGsJVtmbXn9klsuJG8pqqVYs8WKO0hl8';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTg1NDQzfQ.T4KUl26vYa5j0PXEmLjlVBQyZnBcT_SrcOw_JNX-T0g';
 
 function ViewPdf() {
   const designerRef = useRef<HTMLDivElement | null>(null);
