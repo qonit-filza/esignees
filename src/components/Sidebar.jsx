@@ -5,11 +5,11 @@ export default function Sidebar() {
   const activeClass = "border-r-[3px] border-r-theme-3 font-semibold w-full";
   return (
     <>
-      <section className="w-[240px] pl-8 fixed top-3">
+      <section className="w-[240px] pl-8 top-3 fixed ">
         <div className="mt-8">
           <img src={logo} alt="esignee_logo" className="w-32" />
         </div>
-        <div className="border-r-2 h-[620px] flex flex-col justify-between pb-8">
+        <div className="border-r-2 h-[88vh] flex flex-col justify-between pb-8">
           <div>
             <div className="my-8">
               <Link

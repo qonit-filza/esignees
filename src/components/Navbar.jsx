@@ -9,7 +9,7 @@ export default function Navbar() {
 
   return (
     <>
-      <section className="flex justify-between items-center fixed left-[240px] right-0 mx-8 mt-6 top-0 w-full">
+      <section className="flex justify-between items-center fixed left-[240px] right-0 mx-8 mt-6 top-2">
         <div>
           <p className="text-3xl font-semibold">{pageTitle}</p>
           <p>Here is the information about all your documents</p>

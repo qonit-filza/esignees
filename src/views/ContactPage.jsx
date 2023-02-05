@@ -21,7 +21,7 @@ export default function ContactPage() {
   return (
     <>
       <section className="mt-4 flex justify-between h-[80vh] px-2 gap-4">
-        <div className="border-2 p-4 rounded-xl w-[460px]">
+        <div className="border-2 p-4 rounded-xl">
           <div className="mx-2 flex items-center gap-1 border-2 rounded-xl px-2 py-1">
             <span className="material-symbols-outlined">search</span>
             <input

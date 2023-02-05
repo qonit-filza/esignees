@@ -1,15 +1,15 @@
-import { Outlet } from 'react-router';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
+import { Outlet } from "react-router";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
 export default function DashboardLayout() {
   return (
     <>
-      <Sidebar />
       <Navbar />
-      <div className="ml-[240px] mt-[92px] px-6">
+      <Sidebar />
+      <main className="ml-[240px] mt-[92px] pt-4 px-6">
         <Outlet />
-      </div>
+      </main>
     </>
   );
 }
