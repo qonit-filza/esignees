@@ -11,6 +11,7 @@ import DashboardLayout from '../layouts/DashboardLayout';
 import InboxPage from '../views/InboxPage';
 import SettingsPage from '../views/SettingsPage';
 import ContactPage from '../views/ContactPage';
+import SendPdf from '../views/SendPdf';
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,14 @@ const router = createBrowserRouter([
       {
         path: '/upload',
         element: <UploadPdf />,
+      },
+      {
+        path: '/home',
+        element: <Home />,
+      },
+      {
+        path: '/send',
+        element: <SendPdf />,
       },
     ],
   },

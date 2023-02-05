@@ -12,30 +12,22 @@ import {
   addSignature,
 } from '../helpers/pdfHelper';
 import axios from 'axios';
-import React from 'react';
-import Navbar from '../components/Navbar';
-import { useSelector } from 'react-redux';
-import { tempppp } from '../helpers/template';
+import { useSelector, useDispatch } from 'react-redux';
+import { toDataURL } from '../helpers/imageHelper.js'; //!fix later
+import { useNavigate } from 'react-router-dom';
+const access_token =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTc4NDk3fQ.MMguoPKZSYeJGsJVtmbXn9klsuJG8pqqVYs8WKO0hl8';
 
 function ViewPdf() {
   const designerRef = useRef<HTMLDivElement | null>(null);
   const designer = useRef<Designer | null>(null);
-  const { pdf } = useSelector((state) => state);
+  const { pdf, originalName } = useSelector((state: any) => state);
+  const dispatcher = useDispatch();
+  const navigate = useNavigate();
 
-  function customRead(input: any) {
-    const fr = new FileReader();
-    fr.readAsText(input);
-    fr.addEventListener('load', () => {
-      const res = fr.result;
-      console.log(res);
-    });
-  }
-
-  //! original hooks
   useEffect(() => {
     let template: Template = getTemplate();
     try {
-      // const templateString = localStorage.getItem('template');
       const templateString = JSON.stringify(pdf);
       const templateJson = templateString
         ? JSON.parse(templateString)
@@ -46,15 +38,13 @@ function ViewPdf() {
       localStorage.removeItem('template');
     }
 
-    getFontsData().then((font) => {
-      if (designerRef.current) {
-        designer.current = new Designer({
-          domContainer: designerRef.current,
-          template,
-        });
-        designer.current.onSaveTemplate(onSaveTemplate);
-      }
-    });
+    if (designerRef.current) {
+      designer.current = new Designer({
+        domContainer: designerRef.current,
+        template,
+      });
+      designer.current.onSaveTemplate(onSaveTemplate);
+    }
 
     // return () => {
     //   if (designer.current) {
@@ -62,86 +52,6 @@ function ViewPdf() {
     //   }
     // };
   }, [designerRef]);
-
-  // useEffect(() => {
-  //   //
-  //   console.log(pdf);
-
-  //   readFile(pdf, 'dataURL').then(async (basePdf) => {
-  //     if (designer.current) {
-  //       designer.current.updateTemplate(
-  //         Object.assign(cloneDeep(renderPdf(pdf)), {
-  //           basePdf,
-  //         })
-  //       );
-  //     }
-  //   });
-  // }, [designerRef]);
-
-  const onChangeBasePDF = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target && e.target.files) {
-      console.log(e.target.files[0]);
-      readFile(e.target.files[0], 'dataURL').then(async (basePdf) => {
-        if (designer.current) {
-          designer.current.updateTemplate(
-            Object.assign(cloneDeep(designer.current.getTemplate()), {
-              basePdf,
-            })
-          );
-        }
-      });
-    }
-  };
-
-  //   const cleanRender = () => {
-  //     let template: Template = tempppp;
-  //     const data = JSON.stringify(tempppp);
-  //     getTemplateFromJsonFile(tempppp)
-  //       .then((t) => {
-  //         if (designer.current) {
-  //           designer.current.updateTemplate(t);
-  //         }
-  //       })
-  //       .catch((e) => {
-  //         alert(`Invalid template file.
-  // --------------------------
-  // ${e}`);
-  //       });
-  //   };
-
-  const onViewFromServer = async () => {
-    try {
-      const { data } = await axios.get('http://localhost:5001/view', {
-        responseType: 'blob',
-      });
-
-      const { data: data2 } = await axios.get('http://localhost:5001/view', {
-        responseType: 'arraybuffer',
-      });
-
-      const data3 = Buffer.from(data2, 'binary').toString('base64');
-
-      console.log(data);
-      console.log(data3);
-
-      readFile(data, 'dataURL').then(async (basePdf) => {
-        if (designer.current) {
-          designer.current.updateTemplate(
-            Object.assign(cloneDeep(designer.current.getTemplate()), {
-              basePdf,
-            })
-          );
-        }
-      });
-
-      // const file = new Blob([data], { type: 'application/pdf' });
-
-      // const fileURL = URL.createObjectURL(file);
-      // window.open(fileURL);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   function blobToDataURL(blob: Blob, callback: Function) {
     var a = new FileReader();
@@ -171,29 +81,6 @@ function ViewPdf() {
     }
   };
 
-  const onLoadTemplate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target && e.target.files) {
-      console.log(e.target.files);
-      getTemplateFromJsonFile(e.target.files[0])
-        .then((t) => {
-          if (designer.current) {
-            designer.current.updateTemplate(t);
-          }
-        })
-        .catch((e) => {
-          alert(`Invalid template file.
---------------------------
-${e}`);
-        });
-    }
-  };
-
-  const onDownloadTemplate = () => {
-    if (designer.current) {
-      downloadJsonFile(designer.current.getTemplate(), 'template');
-    }
-  };
-
   const onSaveTemplate = (template?: Template) => {
     if (designer.current) {
       localStorage.setItem(
@@ -201,13 +88,6 @@ ${e}`);
         JSON.stringify(template || designer.current.getTemplate())
       );
       alert('Saved!');
-    }
-  };
-
-  const onResetTemplate = () => {
-    if (designer.current) {
-      designer.current.updateTemplate(getTemplate());
-      localStorage.removeItem('template');
     }
   };
 
@@ -219,7 +99,7 @@ ${e}`);
       const pdf = await generate({ template, inputs, options: {} });
       const blob = new Blob([pdf.buffer], { type: 'application/pdf' });
       // console.log(pdf);
-      console.log(blob);
+      console.log(originalName);
 
       // customRead(blob);
 
@@ -227,7 +107,7 @@ ${e}`);
     }
   };
 
-  const onSendPdf = async () => {
+  const onSendPdf2 = async () => {
     if (designer.current) {
       const template = designer.current.getTemplate();
       const inputs = template.sampledata ?? [];
@@ -236,8 +116,8 @@ ${e}`);
       const blob = new Blob([pdf.buffer], { type: 'application/pdf' });
 
       const formData = new FormData();
-      formData.append('name', 'dokumen');
-      formData.append('file', blob);
+      formData.append('docName', originalName);
+      formData.append('file', blob, originalName);
 
       const { data } = await axios.post(
         'http://localhost:5001/sign-pdf',
@@ -250,7 +130,25 @@ ${e}`);
     }
   };
 
-  const appendSignaute = async () => {
+  //generate visual signed docs and store on redux
+  const onSendPdf = async () => {
+    if (designer.current) {
+      const template = designer.current.getTemplate();
+      const inputs = template.sampledata ?? [];
+      // const font = await getFontsData();
+      const pdf = await generate({ template, inputs, options: {} });
+      const blob = new Blob([pdf.buffer], { type: 'application/pdf' });
+
+      dispatcher({
+        type: 'pdf/setSignedPdf',
+        payload: blob,
+      });
+
+      navigate('/send');
+    }
+  };
+
+  const onAppendSignature = async () => {
     if (designer.current) {
       try {
         // const { data } = await axios.get('http://localhost:5001/view', {
@@ -269,21 +167,89 @@ ${e}`);
         //   imgDataUrl = res;
         // });
 
-        const { data: imgDataUrl } = await axios.get(
-          'http://localhost:5001/img-signature'
-        );
+        // const { data: imgDataUrl } = await axios.get(
+        //   'http://localhost:5001/signature-dataurl'
+        // );
 
-        const blob = new Blob(pdf.basePdf);
+        const { data } = await axios.get('http://localhost:3000/signatures', {
+          headers: {
+            access_token,
+          },
+        });
 
-        readFile(blob, 'dataURL').then(async (basePdf) => {
+        toDataURL(data.signature, (dataUrl: string) => {
+          //*works-2
           if (designer.current) {
             designer.current.updateTemplate(
-              Object.assign(cloneDeep(addSignature(blob, imgDataUrl)), {
-                basePdf,
+              Object.assign(cloneDeep(designer.current.getTemplate()), {
+                schemas: [
+                  {
+                    signature: {
+                      type: 'image',
+                      position: { x: 90, y: 100 },
+                      width: 45,
+                      height: 30,
+                    },
+                  },
+                ],
+                sampledata: [{ signature: dataUrl }],
+                columns: ['signature'],
               })
             );
           }
         });
+
+        //*works
+        // if (designer.current) {
+        //   designer.current.updateTemplate(
+        //     Object.assign(cloneDeep(addSignature(pdf.basePdf, imgDataUrl)))
+        //   );
+        // }
+
+        //*experimental
+        // if (designer.current) {
+        //   const newTemplate = cloneDeep(designer.current.getTemplate());
+        //   const emptyObjIndex = newTemplate.sampledata.find((el: object) => {
+        //     return !Object.keys(el).length;
+        //   });
+        //   newTemplate.sampledata.splice(emptyObjIndex, 1);
+        //   console.log({ previous: newTemplate });
+
+        //   newTemplate.columns?.push('signature');
+
+        //   // if (newTemplate.sampledata.length === 1) {
+        //   //   newTemplate.sampledata = [{ signature: imgDataUrl }];
+        //   // } else {
+        //   newTemplate.sampledata?.push({ signature: imgDataUrl });
+        //   // }
+
+        //   newTemplate.schemas?.push({
+        //     signature: {
+        //       type: 'image',
+        //       position: { x: 90, y: 100 },
+        //       width: 24.15,
+        //       height: 37.42,
+        //     },
+        //   });
+
+        //   console.log({ new: newTemplate });
+
+        //   designer.current.updateTemplate(newTemplate);
+        // }
+
+        // console.log(pdf.basePdf);
+
+        // const blob = new Blob(pdf.basePdf);
+
+        // readFile(blob, 'dataURL').then(async (basePdf) => {
+        //   if (designer.current) {
+        //     designer.current.updateTemplate(
+        //       Object.assign(cloneDeep(addSignature(blob, imgDataUrl)), {
+        //         basePdf,
+        //       })
+        //     );
+        //   }
+        // });
       } catch (error) {
         console.log(error);
       }
@@ -292,48 +258,30 @@ ${e}`);
 
   return (
     <div>
-      <header
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <strong>Designer</strong>
-        <span style={{ margin: '0 1rem' }}>:</span>
-        <label style={{ width: 180 }}>
-          Change BasePDF
-          <input
-            type="file"
-            accept="application/pdf"
-            onChange={onChangeBasePDF}
-          />
-        </label>
-        <span style={{ margin: '0 1rem' }}>/</span>
-        <label style={{ width: 180 }}>
-          Load Template
-          <input
-            type="file"
-            accept="application/json"
-            onChange={onLoadTemplate}
-          />
-        </label>
-        <span style={{ margin: '0 1rem' }}>/</span>
-        <button onClick={onDownloadTemplate}>Download Template</button>
-        <button onClick={cleanRenderServer}>Render server</button>
-        <button onClick={appendSignaute}>add Signature</button>
-        {/* <button onClick={cleanRender}>Clean render</button> */}
-        <span style={{ margin: '0 1rem' }}>/</span>
-        <button onClick={() => onSaveTemplate()}>Save Template</button>
-        <span style={{ margin: '0 1rem' }}>/</span>
-        <button onClick={onResetTemplate}>Reset Template</button>
-        <span style={{ margin: '0 1rem' }}>/</span>
-        <button onClick={onGeneratePDF}>Generate PDF</button>
-        <button onClick={onSendPdf}>Send PDF</button>
-      </header>
-      <Navbar />
-
-      <div className="m-14" ref={designerRef} />
+      <div className=" mx-14 mt-14 mb-4 flex justify-end">
+        <button
+          onClick={onAppendSignature}
+          type="button"
+          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+        >
+          Add Signature
+        </button>
+        <button
+          onClick={onGeneratePDF}
+          type="button"
+          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+        >
+          Download
+        </button>
+        <button
+          onClick={onSendPdf}
+          type="button"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 "
+        >
+          Send
+        </button>
+      </div>
+      <div className="m-14 mt-0" ref={designerRef} />
     </div>
   );
 }

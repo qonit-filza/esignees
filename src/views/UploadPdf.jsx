@@ -1,20 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import Navbar from '../components/Navbar';
+// import axios from 'axios';
+// import { toDataURL } from '../helpers/imageHelper';
 
 function UploadPdf() {
-  const navigate = useNavigate();
-
   const [file, setFile] = useState('');
-  const [formVal, setFormVal] = useState({
-    publicKey: '',
-    signature: '',
-  });
-  const [signature, setSignature] = useState('');
+  const navigate = useNavigate();
   const dispatcher = useDispatch();
-  const { pdf } = useSelector((state) => state);
 
   useEffect(() => {
     if (!file) return;
@@ -23,112 +16,22 @@ function UploadPdf() {
         type: 'pdf/setPdf',
         payload: res,
       });
-    });
-  }, [file]);
 
-  const handleFormOnChange = (e) => {
-    const newValue = { ...formVal };
-    newValue[e.target.name] = e.target.value;
-    setFormVal(newValue);
-  };
+      dispatcher({
+        type: 'pdf/setOriginalName',
+        payload: file.name.replace('.pdf', ''),
+      });
+    });
+
+    const date = new Date();
+
+    console.log(date.toLocaleString('ID-id'));
+  }, [file]);
 
   const handleFileChange = (e) => {
     if (e.target.files) {
       setFile(e.target.files[0]);
     }
-  };
-
-  const handleFileOnUpload = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('name', 'dokumen');
-      formData.append('file', file);
-
-      console.log(formData);
-
-      const { data } = await axios.post(
-        'http://localhost:5001/upload',
-        formData,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        }
-      );
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const uploadAndSign = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('name', 'dokumen');
-      formData.append('file', file);
-
-      console.log(formData);
-
-      const { data } = await axios.post(
-        'http://localhost:5001/sign-pdf',
-        formData,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        }
-      );
-      console.log(data);
-      setSignature(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const verifyPdf = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('name', 'dokumen');
-      formData.append('file', file);
-
-      const { data } = await axios.post(
-        'http://localhost:5001/verify-pdf',
-        formData,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        }
-      );
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const verifyPdfWithBody = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('publicKey', formVal.publicKey);
-      formData.append('signature', formVal.signature);
-      formData.append('file', file);
-
-      const { data } = await axios.post(
-        'http://localhost:5001/verify-pdf-with-body',
-        formData,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        }
-      );
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleDownload = async () => {
-    const { data } = await axios.get('http://localhost:5001/view', {
-      responseType: 'blob',
-    });
-
-    const file = new Blob([data], { type: 'application/pdf' });
-
-    const fileURL = URL.createObjectURL(file);
-    window.open(fileURL);
   };
 
   function blobToDataURL(blob, callback) {
@@ -140,60 +43,46 @@ function UploadPdf() {
   }
 
   const navigateRenderPdf = () => {
-    // blobToDataURL(file, (res) => {
-    //   console.log(res);
-    //   dispatcher({
-    //     type: 'pdf/setPdf',
-    //     payload: res,
-    //   });
-    // });
-
     navigate('/render');
   };
 
+  // const testButton = async () => {
+  //   try {
+  //     const { data } = await axios.get('http://localhost:3000/signatures', {
+  //       headers: {
+  //         access_token:
+  //           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTEwOTE5fQ.r44hV91Xu1HXoNCzHFHJpZEuEDX63lUX2M5O7ipGkMs',
+  //       },
+  //     });
+  //     toDataURL(data.signature, (dataUrl) => console.log(dataUrl));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   return (
     <>
-      <Navbar />
-      <section className=" flex w-screen h-screen">
-        <div className=" m-auto w-1/2 border p-4">
-          <h1 className=" mx-auto pb-10 font-bold text-2xl">Upload Document</h1>
+      <section className=" flex w-full mt-64">
+        <div className=" m-auto w-[30rem] border p-4 flex flex-col gap-5">
+          <h1 className=" font-bold text-2xl mb-5">Upload Document</h1>
 
           <input type="file" onChange={handleFileChange} />
 
-          <form>
-            <input
-              onChange={handleFormOnChange}
-              value={formVal.publicKey}
-              type="text"
-              name="publicKey"
-              placeholder="publicKey"
-            ></input>
-            <input
-              onChange={handleFormOnChange}
-              value={formVal.signature}
-              type="text"
-              name="signature"
-              placeholder="signature"
-            ></input>
-          </form>
-
-          {/* <div>{file && `${file.name} - ${file.type}`}</div> */}
-
           <button
-            className=" border bg-black text-white px-2 py-2 rounded-full mt-5 w-36 hover:bg-gray-500"
             onClick={navigateRenderPdf}
+            type="button"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 w-20 "
           >
             Next
           </button>
 
-          <button onClick={verifyPdfWithBody}>verify</button>
-          {/* <button onClick={handleDownload}>View</button> */}
-
-          {/* {signature && (
-          <div className=" flex w-96 flex-wrap border overflow-y-auto">
-            <div className=" border w-48">{signature.signature}</div>
-          </div>
-        )} */}
+          {/* <button
+            onClick={testButton}
+            type="button"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 w-20 "
+          >
+            Test
+          </button> */}
         </div>
       </section>
     </>

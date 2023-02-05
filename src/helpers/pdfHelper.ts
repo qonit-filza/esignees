@@ -97,7 +97,7 @@ export const isJsonString = (str: string) => {
   return true;
 };
 
-export const getTemplate2 = () => {
+export const getTemplate = () => {
   const template: Template = {
     schemas: [
       {
@@ -170,7 +170,7 @@ export const getTemplate2 = () => {
   return template;
 };
 
-export const getTemplate = () => {
+export const getTemplate2 = () => {
   const template: Template = {
     schemas: [
       {
@@ -210,8 +210,8 @@ export const addSignature = (pdfBase64: string, imgBase64: string) => {
         photo: {
           type: 'image',
           position: { x: 90, y: 100 },
-          width: 24.15,
-          height: 37.42,
+          width: 30,
+          height: 20,
         },
       },
     ],
