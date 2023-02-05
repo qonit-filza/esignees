@@ -43,11 +43,11 @@ export default function InboxPage() {
               inboxData.map((el, i) => {
                 return (
                   <tbody key={i}>
-                    <tr onClick={() => navigate(`/inbox/${i}`)} className="border-b-2 hover:bg-sky-50 hover:font-semibold cursor-pointer">
+                    <tr className="border-b-2 hover:bg-sky-50 hover:font-semibold cursor-pointer">
                       <td className="py-2">
                         <input type="checkbox" />
                       </td>
-                      <td className="py-2">Surat Tanda Tangan</td>
+                      <td onClick={() => navigate(`/inbox/${i}`)} className="py-2">Surat Tanda Tangan</td>
                       <td className="py-2">01-02-2023</td>
                       <td className="py-2">Raymond Dale</td>
                       <td className="py-2">PT Sumber Makmur Sentosa</td>
@@ -57,7 +57,7 @@ export default function InboxPage() {
                         </div>
                       </td>
                       <td className="w-20">
-                        <div className="flex gap-4 w-fit mx-auto">
+                        <div className="flex gap-4 w-fit mx-auto hover:text-red-400">
                           <span className="material-symbols-outlined">
                             delete
                           </span>
