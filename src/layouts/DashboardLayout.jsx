@@ -1,6 +1,7 @@
 import { Outlet } from "react-router";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import UploadOptionModal from "../components/UploadOptionModal";
 
 export default function DashboardLayout() {
   return (

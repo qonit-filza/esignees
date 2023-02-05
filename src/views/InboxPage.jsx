@@ -28,7 +28,7 @@ export default function InboxPage() {
   return (
     <>
       <div className="border-2 rounded-xl p-4 mt-4">
-        <div className=" font-light overflow-y-auto h-[70vh]">
+        <div className=" font-light overflow-y-auto h-[70vh] scrollbar">
           <table className="w-full text-center">
             <thead>
               <tr className="border-b-2 border-b-theme-1 bg-white">
@@ -42,7 +42,7 @@ export default function InboxPage() {
                 <th className="py-2">Status</th>
               </tr>
             </thead>
-            {!inboxData ? (
+            {inboxData.length < 1 ? (
               <tbody>
                 <tr>
                   <td colSpan={6}>
