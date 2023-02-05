@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 // import axios from 'axios';
 // import { toDataURL } from '../helpers/imageHelper';
 
-function UploadPdf() {
-  const [file, setFile] = useState('');
+function UploadPdf({}) {
+  const [file, setFile] = useState("");
   const navigate = useNavigate();
   const dispatcher = useDispatch();
 
@@ -13,19 +13,19 @@ function UploadPdf() {
     if (!file) return;
     blobToDataURL(file, (res) => {
       dispatcher({
-        type: 'pdf/setPdf',
+        type: "pdf/setPdf",
         payload: res,
       });
 
       dispatcher({
-        type: 'pdf/setOriginalName',
-        payload: file.name.replace('.pdf', ''),
+        type: "pdf/setOriginalName",
+        payload: file.name.replace(".pdf", ""),
       });
     });
 
     const date = new Date();
 
-    console.log(date.toLocaleString('ID-id'));
+    console.log(date.toLocaleString("ID-id"));
   }, [file]);
 
   const handleFileChange = (e) => {
@@ -43,7 +43,7 @@ function UploadPdf() {
   }
 
   const navigateRenderPdf = () => {
-    navigate('/render');
+    navigate("/render");
   };
 
   // const testButton = async () => {
@@ -59,22 +59,42 @@ function UploadPdf() {
   //     console.log(error);
   //   }
   // };
-
   return (
     <>
-      <section className=" flex w-full mt-64">
-        <div className=" m-auto w-[30rem] border p-4 flex flex-col gap-5">
-          <h1 className=" font-bold text-2xl mb-5">Upload Document</h1>
-
-          <input type="file" onChange={handleFileChange} />
-
+      <section className="absolute inset-0 flex items-center justify-center bg-slate-400 bg-opacity-50 z-10">
+        <div className="w-[27rem] h-[14rem] p-4 flex flex-col gap-3 bg-white rounded-xl items-center justify-center relative">
           <button
-            onClick={navigateRenderPdf}
-            type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 w-20 "
+          // onClick={backToOption()}
+            className="absolute top-2 right-2 text-red-400 hover:text-red-600"
           >
-            Next
+            <span className="material-symbols-outlined">cancel</span>
           </button>
+          <h1 className="text-xl font-semibold text-center">Upload Document</h1>
+          <div className="border-2 p-4 rounded-xl flex items-center justify-center">
+            <input
+              id="upload_pdf"
+              type="file"
+              onChange={handleFileChange}
+              className="text-sm "
+            />
+          </div>
+          <div></div>
+          <div className="flex gap-2">
+            <button
+            // onClick={backToOption()}
+              type="button"
+              className="bg-theme-3 px-4 py-1 rounded-lg text-white hover:text-theme-2 hover:bg-sky-400"
+            >
+              Back
+            </button>
+            <button
+              onClick={navigateRenderPdf}
+              type="button"
+              className="bg-theme-3 px-4 py-1 rounded-lg text-white hover:text-theme-2 hover:bg-sky-400"
+            >
+              Next
+            </button>
+          </div>
 
           {/* <button
             onClick={testButton}

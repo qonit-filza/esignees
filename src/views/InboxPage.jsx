@@ -4,9 +4,8 @@ import emptyTable from "../assets/img/dog_walk.png";
 export default function InboxPage() {
   const navigate = useNavigate();
   const inboxData = "adsfadsewrwerfasdf".split("");
-  const goToDocumentDetails = () => {
-    navigate("/sent");
-  };
+
+  
   return (
     <>
       <div className="border-2 rounded-xl p-4 mt-4">

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import logo from "../assets/img/logo-3.png";
+import UploadPdf from "../views/UploadPdf";
 import UploadOptionModal from "./UploadOptionModal";
 
 export default function Sidebar() {
@@ -17,6 +18,7 @@ export default function Sidebar() {
         showState={showUploadModal}
         openCloseModal={handleModal}
       />
+
       <section className="w-[240px] pl-8 top-3 fixed ">
         <div className="mt-8">
           <img src={logo} alt="esignee_logo" className="w-32" />
