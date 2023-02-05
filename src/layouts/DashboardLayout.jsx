@@ -4,12 +4,12 @@ import Sidebar from '../components/Sidebar';
 
 export default function DashboardLayout() {
   return (
-    <section className="container flex w-full">
+    <>
       <Sidebar />
       <Navbar />
-      <div className="ml-[240px] mt-[92px] w-full px-6">
+      <div className="ml-[240px] mt-[92px] px-6">
         <Outlet />
       </div>
-    </section>
+    </>
   );
 }
