@@ -11,7 +11,7 @@ export default function InboxPage() {
     <>
       <div className="border-2 rounded-xl p-4 mt-4">
         Order By
-        <div className=" font-light overflow-y-auto h-[70vh] scrollbar">
+        <div className=" font-light overflow-y-auto ">
           <table className="w-full text-center">
             <thead>
               <tr className="border-b-2 border-b-theme-1 bg-white">
@@ -44,7 +44,7 @@ export default function InboxPage() {
               inboxData.map((el, i) => {
                 return (
                   <tbody key={i}>
-                    <tr onClick={() => navigate(i)} className="border-b-2 hover:bg-sky-50 hover:font-semibold cursor-pointer">
+                    <tr onClick={() => navigate(`/inbox/${i}`)} className="border-b-2 hover:bg-sky-50 hover:font-semibold cursor-pointer">
                       <td className="py-2">
                         <input type="checkbox" />
                       </td>
