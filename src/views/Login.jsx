@@ -1,6 +1,35 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios';
 
 export default function Login() {
+  const [formValue, setFormValue] = useState({
+    email: '',
+    password: '',
+  });
+  const navigate = useNavigate();
+
+  const handleFormOnChange = (e) => {
+    const newValue = { ...formValue };
+    newValue[e.target.name] = e.target.value;
+    setFormValue(newValue);
+  };
+
+  const handleLogin = async (e) => {
+    try {
+      e.preventDefault();
+      const { data } = await axios.post(
+        'http://localhost:3000/login',
+        formValue
+      );
+
+      localStorage.setItem('access_token', data.access_token);
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div
       style={{
@@ -38,6 +67,7 @@ export default function Login() {
           esignees/ LOGO IMG(?)
         </h1>
         <form
+          onSubmit={handleLogin}
           style={{
             border: 'solid',
             borderColor: 'white',
@@ -56,7 +86,10 @@ export default function Login() {
           <br />
           <p>Email:</p>
           <input
+            value={formValue.email}
+            onChange={handleFormOnChange}
             type="text"
+            name="email"
             placeholder="user@email.com"
             style={{
               border: 'solid',
@@ -69,7 +102,10 @@ export default function Login() {
           />
           <p>Password:</p>
           <input
+            value={formValue.password}
+            onChange={handleFormOnChange}
             type="text"
+            name="password"
             placeholder="Password"
             style={{
               border: 'solid',
