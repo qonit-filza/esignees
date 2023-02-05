@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
+const access_token =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTc4NDk3fQ.MMguoPKZSYeJGsJVtmbXn9klsuJG8pqqVYs8WKO0hl8';
 
 const SignaturePad = () => {
   const sigPad = useRef({});
@@ -19,8 +21,7 @@ const SignaturePad = () => {
       },
       {
         headers: {
-          access_token:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTEwOTE5fQ.r44hV91Xu1HXoNCzHFHJpZEuEDX63lUX2M5O7ipGkMs',
+          access_token,
         },
       }
     );

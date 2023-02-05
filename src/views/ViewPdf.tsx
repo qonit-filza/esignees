@@ -12,13 +12,18 @@ import {
   addSignature,
 } from '../helpers/pdfHelper';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { toDataURL } from '../helpers/imageHelper.js'; //!fix later
+import { useNavigate } from 'react-router-dom';
+const access_token =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTc4NDk3fQ.MMguoPKZSYeJGsJVtmbXn9klsuJG8pqqVYs8WKO0hl8';
 
 function ViewPdf() {
   const designerRef = useRef<HTMLDivElement | null>(null);
   const designer = useRef<Designer | null>(null);
   const { pdf, originalName } = useSelector((state: any) => state);
+  const dispatcher = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     let template: Template = getTemplate();
@@ -102,15 +107,13 @@ function ViewPdf() {
     }
   };
 
-  const onSendPdf = async () => {
+  const onSendPdf2 = async () => {
     if (designer.current) {
       const template = designer.current.getTemplate();
       const inputs = template.sampledata ?? [];
       // const font = await getFontsData();
       const pdf = await generate({ template, inputs, options: {} });
       const blob = new Blob([pdf.buffer], { type: 'application/pdf' });
-
-      console.log(blob);
 
       const formData = new FormData();
       formData.append('docName', originalName);
@@ -124,6 +127,24 @@ function ViewPdf() {
         }
       );
       console.log(data);
+    }
+  };
+
+  //generate visual signed docs and store on redux
+  const onSendPdf = async () => {
+    if (designer.current) {
+      const template = designer.current.getTemplate();
+      const inputs = template.sampledata ?? [];
+      // const font = await getFontsData();
+      const pdf = await generate({ template, inputs, options: {} });
+      const blob = new Blob([pdf.buffer], { type: 'application/pdf' });
+
+      dispatcher({
+        type: 'pdf/setSignedPdf',
+        payload: blob,
+      });
+
+      navigate('/send');
     }
   };
 
@@ -152,8 +173,7 @@ function ViewPdf() {
 
         const { data } = await axios.get('http://localhost:3000/signatures', {
           headers: {
-            access_token:
-              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTEwOTE5fQ.r44hV91Xu1HXoNCzHFHJpZEuEDX63lUX2M5O7ipGkMs',
+            access_token,
           },
         });
 

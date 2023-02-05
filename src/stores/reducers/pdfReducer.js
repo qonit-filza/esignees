@@ -1,6 +1,7 @@
 const initialState = {
   pdf: {},
   originalName: '',
+  signedPdf: {},
 };
 
 const pdfReducer = (state = initialState, action) => {
@@ -17,6 +18,11 @@ const pdfReducer = (state = initialState, action) => {
       return {
         ...state,
         originalName: action.payload,
+      };
+    case 'pdf/setSignedPdf':
+      return {
+        ...state,
+        signedPdf: action.payload,
       };
     default:
       return state;
