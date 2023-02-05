@@ -12,6 +12,7 @@ import InboxPage from '../views/InboxPage';
 import SettingsPage from '../views/SettingsPage';
 import ContactPage from '../views/ContactPage';
 import SendPdf from '../views/SendPdf';
+import InboxDetails from '../views/InboxDetails'
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: '/inbox',
         element: <InboxPage />,
+      },
+      {
+        path: '/inbox/:document_id',
+        element: <InboxDetails/>
       },
       {
         path: '/settings',

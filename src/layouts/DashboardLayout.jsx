@@ -7,7 +7,7 @@ export default function DashboardLayout() {
     <>
       <Navbar />
       <Sidebar />
-      <main className="ml-[240px] mt-[92px] pt-4 px-6">
+      <main className="ml-[240px] mt-[92px] pt-4 px-8">
         <Outlet />
       </main>
     </>

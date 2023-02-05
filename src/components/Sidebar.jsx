@@ -86,8 +86,8 @@ export default function Sidebar() {
                 }
               >
                 <li className="flex items-center gap-2 cursor-pointer">
-                  <span className="material-symbols-outlined">settings</span>
-                  Settings
+                  <span className="material-symbols-outlined">account_circle</span>
+                  My Profile
                 </li>
               </NavLink>
             </ul>
