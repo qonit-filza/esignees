@@ -1,12 +1,30 @@
-import { useNavigate } from "react-router-dom";
-import emptyTable from "../assets/img/dog_walk.png";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import emptyTable from '../assets/img/dog_walk.png';
 
 export default function InboxPage() {
   const navigate = useNavigate();
-  const inboxData = "adsfadsewrwerfasdf".split("");
-  const goToDocumentDetails = () => {
-    navigate("/sent");
+  const [inboxData, setInboxData] = useState([]);
+
+  const fetchInboxes = async () => {
+    try {
+      const { data } = await axios.get('http://localhost:3000/sents', {
+        headers: {
+          access_token: localStorage.getItem('access_token'),
+        },
+      });
+
+      setInboxData(data.messageReceiver);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    fetchInboxes();
+  }, []);
+
   return (
     <>
       <div className="border-2 rounded-xl p-4 mt-4">
@@ -47,13 +65,18 @@ export default function InboxPage() {
                       <td className="py-2">
                         <input type="checkbox" />
                       </td>
-                      <td onClick={() => navigate(`/inbox/${i}`)} className="py-2">Surat Tanda Tangan</td>
-                      <td className="py-2">01-02-2023</td>
-                      <td className="py-2">Raymond Dale</td>
-                      <td className="py-2">PT Sumber Makmur Sentosa</td>
+                      <td
+                        onClick={() => navigate(`/inbox/${i}`)}
+                        className="py-2 text-left"
+                      >
+                        {el.Documents[0].metaTitle}
+                      </td>
+                      <td className="py-2">{el.createdAt}</td>
+                      <td className="py-2">{el.Sender.name}</td>
+                      <td className="py-2">{el.Sender.Company.nameCompany}</td>
                       <td className="py-2">
                         <div className="bg-green-200 w-fit mx-auto px-3 py-1 rounded-md text-xs tracking-wide font-semibold">
-                          Signed
+                          {el.status}
                         </div>
                       </td>
                       <td className="w-20">
