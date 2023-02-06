@@ -17,6 +17,7 @@ import UploadLayout from "../layouts/UploadLayout";
 import UploadOption from "../components/UploadOption";
 import OrganizationPage from "../views/OrganizationPage";
 import SubcriptionPage from "../views/SubcriptionPage";
+import SentPage from "../views/SentPage";
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/sent",
-        element: <div>sent</div>,
+        element: <SentPage/>,
       },
       {
         path: "/inbox",
