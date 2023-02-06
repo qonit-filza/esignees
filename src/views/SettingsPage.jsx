@@ -1,45 +1,84 @@
+import { useState } from "react";
 
 export default function SettingsPage() {
+  const [editState, setEditState] = useState(false);
+
+  const changeToEditForm = () => {
+    setEditState(!editState);
+  };
+
   return (
     <>
-      <div className="mt-4 flex gap-6 h-[70vh]">
-        <div className="flex flex-col gap-4 border-2 p-6 rounded-xl relative pt-8">
-          <button className="absolute top-2 right-2">
-            <span class="material-symbols-outlined">edit</span>
+      <div className="flex gap-6 h-[80vh]">
+        <div className="flex flex-col gap-4 border-2 p-6 rounded-xl relative pt-8 w-full">
+          <button
+            onClick={changeToEditForm}
+            className="absolute top-4 right-4 bg-theme-3 text-white hover:bg-theme-1 hover:text-white px-4 py-1 rounded-xl"
+          >
+            Edit
           </button>
-          <div className="w-36 h-36 overflow-hidden rounded-full ring-2 ring-theme-1 ring-offset-2 self-center mb-6">
-            <img
-              src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-              alt="profile_photo"
-            />
-          </div>
           <div>
             <p className="text-sm">Full Name</p>
-            <p className="text-lg">John Claymore</p>
+            {editState ? (
+              <p className="text-lg">John Claymore</p>
+            ) : (
+              <input
+                type="text"
+                className="border-2 rounded-xl px-2 py-1 outline-none border-theme-1 mt-1 w-1/4"
+              />
+            )}
           </div>
           <div>
             <p className="text-sm">Organization</p>
-            <p className="text-lg">PT Sumber Makmur Sentosa</p>
+
+            {editState ? (
+              <p className="text-lg">PT Sumber Makmur Sentosa</p>
+            ) : (
+              <input
+                type="text"
+                className="border-2 rounded-xl px-2 py-1 outline-none border-theme-1 mt-1 w-1/4"
+              />
+            )}
           </div>
           <div>
             <p className="text-sm">Email Address</p>
-            <p className="text-lg">johnclaymore@mail.com</p>
+            {editState ? (
+              <p className="text-lg">johnclaymore@mail.com</p>
+            ) : (
+              <input
+                type="text"
+                className="border-2 rounded-xl px-2 py-1 outline-none border-theme-1 mt-1 w-1/4"
+              />
+            )}
           </div>
           <div>
             <p className="text-sm">Phone Number</p>
-            <p className="text-lg">+6288080898</p>
+            {editState ? (
+              <p className="text-lg">+6288080898</p>
+            ) : (
+              <input
+                type="text"
+                className="border-2 rounded-xl px-2 py-1 outline-none border-theme-1 mt-1 w-1/4"
+              />
+            )}
           </div>
-        </div>
-        <div className="border-2 rounded-xl px-6 py-4 h-fit relative">
-          <button className="absolute top-2 right-2">
-            <span class="material-symbols-outlined">edit</span>
-          </button>
-          <p className="text-xl text-center mb-2">Signature</p>
-          <div className="w-[240px] p-4 rounded-xl">
-            <img
-              src="https://static.cdn.wisestamp.com/wp-content/uploads/2020/08/Oprah-Winfrey-Signature-1.png"
-              alt="user_signature"
-            />
+          <div>
+            <p className="text-sm">Signature</p>
+            {editState ? (
+              <div className="w-[40vh] rounded-xl  mt-2">
+                <img
+                  src="https://static.cdn.wisestamp.com/wp-content/uploads/2020/08/Oprah-Winfrey-Signature-1.png"
+                  alt="user_signature"
+                />
+                <button className="text-xs mx-auto hover:underline text-red-400 w-fit">
+                  Remove Signature
+                </button>
+              </div>
+            ) : (
+              <div className="border-2 w-1/4 p-2 rounded-xl mt-2 border-theme-1">
+                <input type="file" />
+              </div>
+            )}
           </div>
         </div>
       </div>

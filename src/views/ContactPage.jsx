@@ -54,13 +54,9 @@ export default function ContactPage() {
               Delete
             </button>
           </div>
-          <div className="rounded-t-xl flex flex-col items-center justify-center bg-sky-50 px-8 pt-8 pb-4">
-            <div className="bg-red-300 mx-auto w-36 h-36 rounded-full overflow-hidden ring-theme-1 ring-offset-4 ring-2 border-theme-1 ">
-              <img
-                src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                alt="profile_photo"
-                className="object-cover"
-              />
+          <div className="rounded-t-xl flex flex-col items-center justify-center bg-sky-50 px-8 pt-6 pb-4 border-b-2">
+            <div className="bg-theme-3 mx-auto w-24 h-24 rounded-full flex items-center justify-center border-4">
+              <p className="text-5xl font-semibold tracking-wide text-white">LG</p>
             </div>
             <p className=" text-2xl font-semibold mt-4">
               {contactDetails.name}
