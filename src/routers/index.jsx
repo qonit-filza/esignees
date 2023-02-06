@@ -12,7 +12,8 @@ import InboxPage from '../views/InboxPage';
 import SettingsPage from '../views/SettingsPage';
 import ContactPage from '../views/ContactPage';
 import SendPdf from '../views/SendPdf';
-import InboxDetails from '../views/InboxDetails'
+import InboxDetails from '../views/InboxDetails';
+import ReplyPdf from '../views/ReplyPdf';
 
 const router = createBrowserRouter([
   {
@@ -24,15 +25,15 @@ const router = createBrowserRouter([
       },
       {
         path: '/contacts',
-        element: <ContactPage/>
+        element: <ContactPage />,
       },
       {
         path: '/organization',
-        element: <div>organization</div>
+        element: <div>organization</div>,
       },
       {
         path: '/sent',
-        element: <div>sent</div>
+        element: <div>sent</div>,
       },
       {
         path: '/inbox',
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/inbox/:document_id',
-        element: <InboxDetails/>
+        element: <InboxDetails />,
       },
       {
         path: '/settings',
@@ -58,11 +59,15 @@ const router = createBrowserRouter([
         path: '/send',
         element: <SendPdf />,
       },
+      {
+        path: '/reply',
+        element: <ReplyPdf />,
+      },
     ],
   },
   {
     path: '/login',
-    element: <Login/>,
+    element: <Login />,
   },
   {
     path: '/user/register',

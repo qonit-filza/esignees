@@ -60,16 +60,16 @@ export default function InboxPage() {
             ) : (
               inboxData.map((el, i) => {
                 return (
-                  <tbody key={i}>
+                  <tbody key={'inbox-' + i}>
                     <tr className="border-b-2 hover:bg-sky-50 hover:font-semibold cursor-pointer">
                       <td className="py-2">
                         <input type="checkbox" />
                       </td>
                       <td
-                        onClick={() => navigate(`/inbox/${i}`)}
+                        onClick={() => navigate(`/inbox/${el.id}`)}
                         className="py-2 text-left"
                       >
-                        {el.Documents[0].metaTitle}
+                        {el.Documents[el.Documents.length - 1].documentName}
                       </td>
                       <td className="py-2">{el.createdAt}</td>
                       <td className="py-2">{el.Sender.name}</td>

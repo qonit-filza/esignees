@@ -1,8 +1,7 @@
 import axios from 'axios';
 import React, { useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
-const access_token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTg1NDQzfQ.T4KUl26vYa5j0PXEmLjlVBQyZnBcT_SrcOw_JNX-T0g';
+const access_token = localStorage.getItem('access_token');
 
 const SignaturePad = () => {
   const sigPad = useRef({});
