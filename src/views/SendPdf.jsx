@@ -24,12 +24,12 @@ function SendPdf({ hideShowSendPdf, closeSendPdf }) {
     closeSendPdf();
 
     const formData = new FormData();
-    formData.append('docName', originalName);
-    formData.append('email', formValue.email);
-    formData.append('message', formValue.message);
-    formData.append('status', 'ongoing');
-    formData.append('privateKey', formValue.privateKey);
-    formData.append('file', signedPdf, originalName);
+    formData.append("docName", originalName);
+    formData.append("email", formValue.email);
+    formData.append("message", formValue.message);
+    formData.append("status", "ongoing");
+    formData.append("privateKey", formValue.privateKey);
+    formData.append("file", signedPdf, originalName);
 
     const { data } = await axios.post("http://localhost:3000/sents", formData, {
       headers: { "Content-Type": "multipart/form-data", access_token },
@@ -66,12 +66,12 @@ function SendPdf({ hideShowSendPdf, closeSendPdf }) {
               type="text"
               id="document"
               name="document"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
               value={originalName}
             />
             <label
               htmlFor="privateKey"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Private Key
             </label>
@@ -79,7 +79,7 @@ function SendPdf({ hideShowSendPdf, closeSendPdf }) {
               type="text"
               id="privateKey"
               name="privateKey"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
               value={formValue.privateKey}
               onChange={handleFormOnChange}
             />
@@ -95,12 +95,12 @@ function SendPdf({ hideShowSendPdf, closeSendPdf }) {
               type="text"
               id="email"
               name="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
             />
 
             <label
               htmlFor="message"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Message
             </label>
@@ -110,7 +110,7 @@ function SendPdf({ hideShowSendPdf, closeSendPdf }) {
               type="text"
               id="message"
               name="message"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
             />
           </div>
 
