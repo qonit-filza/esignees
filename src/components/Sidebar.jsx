@@ -27,6 +27,21 @@ export default function Sidebar() {
 
             <ul className="flex flex-col gap-3">
               <NavLink
+                to="/organization"
+                className={({ isActive }) =>
+                  isActive
+                    ? activeClass
+                    : "hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full"
+                }
+              >
+                <li className="flex items-center gap-2 cursor-pointer">
+                  <span className="material-symbols-outlined">
+                    corporate_fare
+                  </span>
+                  Organization
+                </li>
+              </NavLink>
+              <NavLink
                 to="/accounts"
                 className={({ isActive }) =>
                   isActive
@@ -82,7 +97,6 @@ export default function Sidebar() {
                   Sent
                 </li>
               </NavLink>
-              
             </ul>
           </div>
           <ul className="flex flex-col gap-3">

@@ -15,6 +15,8 @@ import SendPdf from "../views/SendPdf";
 import InboxDetails from "../views/InboxDetails";
 import UploadLayout from "../layouts/UploadLayout";
 import UploadOption from "../components/UploadOption";
+import OrganizationPage from "../views/OrganizationPage";
+import SubcriptionPage from "../views/SubcriptionPage";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +32,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/organization",
-        element: <div>organization</div>,
+        element: <OrganizationPage/>,
+      },
+      {
+        path: "/subcriptions",
+        element: <SubcriptionPage/>,
       },
       {
         path: "/sent",
