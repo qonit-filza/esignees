@@ -1,7 +1,9 @@
 const initialState = {
-  pdf: {},
-  originalName: '',
-  signedPdf: {},
+  pdf: {}, //on upload
+  originalName: '', // on upload
+  signedPdf: {}, //after user sign
+  replyDocument: {},
+  documentDetail: {},
 };
 
 const pdfReducer = (state = initialState, action) => {
@@ -23,6 +25,16 @@ const pdfReducer = (state = initialState, action) => {
       return {
         ...state,
         signedPdf: action.payload,
+      };
+    case 'pdf/setReplyDocument':
+      return {
+        ...state,
+        replyDocument: action.payload,
+      };
+    case 'pdf/setDocumentDetail':
+      return {
+        ...state,
+        documentDetail: action.payload,
       };
     default:
       return state;
