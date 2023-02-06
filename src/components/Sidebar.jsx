@@ -1,10 +1,15 @@
-import { useState } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
-import logo from "../assets/img/logo-3.png";
+import { useState } from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import logo from '../assets/img/logo-3.png';
 
 export default function Sidebar() {
-  const activeClass = "border-r-[3px] border-r-theme-3 font-semibold w-full";
+  const activeClass = 'border-r-[3px] border-r-theme-3 font-semibold w-full';
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/login');
+  };
 
   return (
     <>
@@ -17,7 +22,7 @@ export default function Sidebar() {
             <div className="my-6">
               <button
                 onClick={() => {
-                  navigate("/upload/options");
+                  navigate('/upload/options');
                 }}
                 className="bg-blue-500 hover:bg-blue-400 text-white rounded-lg px-4 py-2 shadow-md"
               >
@@ -31,7 +36,7 @@ export default function Sidebar() {
                 className={({ isActive }) =>
                   isActive
                     ? activeClass
-                    : "hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full"
+                    : 'hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full'
                 }
               >
                 <li className="flex items-center gap-2 cursor-pointer">
@@ -46,7 +51,7 @@ export default function Sidebar() {
                 className={({ isActive }) =>
                   isActive
                     ? activeClass
-                    : "hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full"
+                    : 'hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full'
                 }
               >
                 <li className="flex items-center gap-2 cursor-pointer">
@@ -61,7 +66,7 @@ export default function Sidebar() {
                 className={({ isActive }) =>
                   isActive
                     ? activeClass
-                    : "hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full"
+                    : 'hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full'
                 }
               >
                 <li className="flex items-center gap-2 cursor-pointer">
@@ -76,7 +81,7 @@ export default function Sidebar() {
                 className={({ isActive }) =>
                   isActive
                     ? activeClass
-                    : "hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full"
+                    : 'hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full'
                 }
               >
                 <li className="flex items-center gap-2 cursor-pointer">
@@ -89,7 +94,7 @@ export default function Sidebar() {
                 className={({ isActive }) =>
                   isActive
                     ? activeClass
-                    : "hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full"
+                    : 'hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full'
                 }
               >
                 <li className="flex items-center gap-2 cursor-pointer">
@@ -108,7 +113,10 @@ export default function Sidebar() {
               <span className="material-symbols-outlined">contact_support</span>
               Contact Us
             </li>
-            <li className="flex items-center gap-2 cursor-pointer hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold ">
+            <li
+              onClick={handleLogout}
+              className="flex items-center gap-2 cursor-pointer hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold "
+            >
               <span className="material-symbols-outlined">logout</span>
               Logout
             </li>

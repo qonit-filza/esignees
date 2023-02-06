@@ -8,7 +8,7 @@ const access_token = localStorage.getItem('access_token');
 
 export default function DocumentDetails() {
   const { pathname } = useLocation();
-  const id = pathname.slice(1).split('/').at(1);
+  const [page, id] = pathname.slice(1).split('/');
   const dispatcher = useDispatch();
   const [showInfo, setShowInfo] = useState(false);
   const [messageData, setMessageData] = useState('');
@@ -47,22 +47,26 @@ export default function DocumentDetails() {
             message: messageArr[i],
             receiver: receiverArr[i],
           };
-        });
+        }).reverse();
       } else {
-        histories = Object.assign(documents[0], { message: data.data.message });
+        histories = [
+          Object.assign(documents[0], {
+            message: data.data.message,
+            receiver: data.data.Receiver.name,
+          }),
+        ];
       }
-
-      console.log(histories);
 
       dispatcher({
         type: 'pdf/setDocumentDetail',
         payload: {
+          page,
           documentId: data.data.Documents[index].id,
           docName: data.data.Documents[index].documentName,
           messageId: data.data.id,
           previousMessage: data.data.message,
           isCompleted,
-          histories: histories.reverse(),
+          histories,
         },
       });
 
@@ -73,6 +77,7 @@ export default function DocumentDetails() {
   };
 
   useEffect(() => {
+    console.log(pathname);
     fetchMessage();
   }, []);
 

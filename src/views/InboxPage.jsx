@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import emptyTable from '../assets/img/dog_walk.png';
+import { localeDate } from '../helpers/dateHelper';
 
 export default function InboxPage() {
   const navigate = useNavigate();
@@ -71,12 +72,23 @@ export default function InboxPage() {
                       >
                         {el.Documents[el.Documents.length - 1].documentName}
                       </td>
-                      <td className="py-2">{el.createdAt}</td>
+                      <td className="py-2">{localeDate(el.createdAt)}</td>
                       <td className="py-2">{el.Sender.name}</td>
                       <td className="py-2">{el.Sender.Company.nameCompany}</td>
                       <td className="py-2">
-                        <div className="bg-green-200 w-fit mx-auto px-3 py-1 rounded-md text-xs tracking-wide font-semibold">
-                          {el.status}
+                        <div
+                          className={
+                            'w-fit mx-auto px-3 py-1 rounded-md text-xs tracking-wide font-semibold ' +
+                            `${
+                              el.status === 'completed'
+                                ? 'bg-green-200'
+                                : 'bg-yellow-200'
+                            }`
+                          }
+                        >
+                          {el.status === 'completed'
+                            ? 'Completed'
+                            : 'Needs to sign'}
                         </div>
                       </td>
                       <td className="w-20">

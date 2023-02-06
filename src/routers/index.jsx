@@ -18,7 +18,6 @@ import UploadOption from '../components/UploadOption';
 import OrganizationPage from '../views/OrganizationPage';
 import SubcriptionPage from '../views/SubcriptionPage';
 import SentPage from '../views/SentPage';
-import ReplyPdf from '../views/ReplyPdf';
 
 const router = createBrowserRouter([
   {
@@ -42,18 +41,18 @@ const router = createBrowserRouter([
       },
       {
         path: '/sent',
-        element: <div>sent</div>,
+        element: <SentPage />,
       },
       {
-        path: '/sent',
-        element: <SentPage />,
+        path: '/sent/:message_id',
+        element: <InboxDetails />,
       },
       {
         path: '/inbox',
         element: <InboxPage />,
       },
       {
-        path: '/inbox/:document_id',
+        path: '/inbox/:message_id',
         element: <InboxDetails />,
       },
       {
@@ -85,10 +84,6 @@ const router = createBrowserRouter([
       {
         path: '/send',
         element: <SendPdf />,
-      },
-      {
-        path: '/reply',
-        element: <ReplyPdf />,
       },
     ],
   },

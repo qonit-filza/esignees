@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import emptyTable from '../assets/img/dog_walk.png';
+import { localeDate } from '../helpers/dateHelper';
 
 export default function SentPage() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function SentPage() {
         },
       });
 
-      setSentData(data.messageReceiver);
+      setSentData(data.messageSender);
     } catch (error) {
       console.log(error);
     }
@@ -37,7 +38,7 @@ export default function SentPage() {
                 </th>
                 <th className="py-2">Document Title</th>
                 <th className="py-2">Date</th>
-                <th className="py-2">Sender</th>
+                <th className="py-2">Receiver</th>
                 <th className="py-2">Organization</th>
                 <th className="py-2">Status</th>
               </tr>
@@ -60,23 +61,36 @@ export default function SentPage() {
             ) : (
               sentData.map((el, i) => {
                 return (
-                  <tbody key={i}>
+                  <tbody key={'sent-' + el.id}>
                     <tr className="border-b-2 hover:bg-sky-50 hover:font-semibold cursor-pointer">
                       <td className="py-2">
                         <input type="checkbox" />
                       </td>
                       <td
-                        onClick={() => navigate(`/inbox/${i}`)}
+                        onClick={() => navigate(`/sent/${el.id}`)}
                         className="py-2 text-left"
                       >
-                        {el.Documents[0].metaTitle}
+                        {el.Documents[0].documentName}
                       </td>
-                      <td className="py-2">{el.createdAt}</td>
-                      <td className="py-2">{el.Sender.name}</td>
-                      <td className="py-2">{el.Sender.Company.nameCompany}</td>
+                      <td className="py-2">{localeDate(el.createdAt)}</td>
+                      <td className="py-2">{el.Receiver.name}</td>
                       <td className="py-2">
-                        <div className="bg-green-200 w-fit mx-auto px-3 py-1 rounded-md text-xs tracking-wide font-semibold">
-                          {el.status}
+                        {el.Receiver.Company.nameCompany}
+                      </td>
+                      <td className="py-2">
+                        <div
+                          className={
+                            'w-fit mx-auto px-3 py-1 rounded-md text-xs tracking-wide font-semibold ' +
+                            `${
+                              el.status === 'completed'
+                                ? 'bg-green-200'
+                                : 'bg-yellow-200'
+                            }`
+                          }
+                        >
+                          {el.status === 'completed'
+                            ? 'Completed'
+                            : 'On process'}
                         </div>
                       </td>
                       <td className="w-20">

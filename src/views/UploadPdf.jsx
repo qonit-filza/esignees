@@ -1,32 +1,34 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import SendPdf from "./SendPdf";
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import SendPdf from './SendPdf';
 // import axios from 'axios';
 // import { toDataURL } from '../helpers/imageHelper';
 
-function UploadPdf({ showFromState, backToOption }) {
-  const [file, setFile] = useState("");
+function UploadPdf() {
+  const [file, setFile] = useState('');
   const navigate = useNavigate();
   const dispatcher = useDispatch();
+  const { state } = useLocation();
+  const { type } = state;
 
   useEffect(() => {
     if (!file) return;
     blobToDataURL(file, (res) => {
       dispatcher({
-        type: "pdf/setPdf",
+        type: 'pdf/setPdf',
         payload: res,
       });
 
       dispatcher({
-        type: "pdf/setOriginalName",
-        payload: file.name.replace(".pdf", ""),
+        type: 'pdf/setOriginalName',
+        payload: file.name.replace('.pdf', ''),
       });
     });
 
     const date = new Date();
 
-    console.log(date.toLocaleString("ID-id"));
+    console.log(date.toLocaleString('ID-id'));
   }, [file]);
 
   const handleFileChange = (e) => {
@@ -44,7 +46,7 @@ function UploadPdf({ showFromState, backToOption }) {
   }
 
   const navigateRenderPdf = () => {
-    navigate("/upload/preview");
+    navigate('/upload/preview', { state: { type } });
   };
 
   // const testButton = async () => {
@@ -61,8 +63,6 @@ function UploadPdf({ showFromState, backToOption }) {
   //   }
   // };
 
-
-
   return (
     <>
       <section className="flex items-center justify-center h-[80vh]">
@@ -78,7 +78,9 @@ function UploadPdf({ showFromState, backToOption }) {
           <div></div>
           <div className="flex gap-2">
             <button
-              onClick={() => {navigate('/upload/options')}}
+              onClick={() => {
+                navigate('/upload/options');
+              }}
               type="button"
               className="bg-theme-3 px-4 py-1 rounded-lg text-white hover:text-theme-2 hover:bg-sky-400"
             >

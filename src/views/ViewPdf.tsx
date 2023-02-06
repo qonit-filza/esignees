@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Designer, Template, checkTemplate } from '@pdfme/ui';
 import { generate } from '@pdfme/generator';
-import SendPdf from './SendPdf'
-
-
+import SendPdf from './SendPdf';
 import {
   getFontsData,
   getTemplate,
@@ -17,9 +15,8 @@ import {
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { toDataURL } from '../helpers/imageHelper.js'; //!fix later
-import { useNavigate } from 'react-router-dom';
-const access_token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTg1NDQzfQ.T4KUl26vYa5j0PXEmLjlVBQyZnBcT_SrcOw_JNX-T0g';
+import { useLocation, useNavigate } from 'react-router-dom';
+const access_token = localStorage.getItem('access_token');
 
 function ViewPdf() {
   const designerRef = useRef<HTMLDivElement | null>(null);
@@ -27,6 +24,8 @@ function ViewPdf() {
   const { pdf, originalName } = useSelector((state: any) => state);
   const dispatcher = useDispatch();
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const { type } = state;
 
   useEffect(() => {
     let template: Template = getTemplate();
@@ -148,7 +147,7 @@ function ViewPdf() {
       });
 
       // navigate('/send');
-      handleSendPdf()
+      handleSendPdf();
     }
   };
 
@@ -260,23 +259,30 @@ function ViewPdf() {
     }
   };
 
-  const [showSendPdf, setShowSendPdf] = useState(false)
+  const [showSendPdf, setShowSendPdf] = useState(false);
 
   const handleSendPdf = () => {
-    setShowSendPdf(!showSendPdf)
-  }
+    setShowSendPdf(!showSendPdf);
+  };
 
   return (
-    <div className='h-[80vh] overflow-y-auto rounded-xl border-2 '>
-    <SendPdf hideShowSendPdf={showSendPdf} closeSendPdf={handleSendPdf}/>
+    <div className="h-[80vh] overflow-y-auto rounded-xl border-2 ">
+      <SendPdf
+        hideShowSendPdf={showSendPdf}
+        closeSendPdf={handleSendPdf}
+        type={type}
+      />
       <div className=" mx-14 mt-14 mb-4 flex justify-end">
-        <button
-          onClick={onAppendSignature}
-          type="button"
-          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
-        >
-          Add Signature
-        </button>
+        {(type === 'selfSign' || type === 'signWithOther') && (
+          <button
+            onClick={onAppendSignature}
+            type="button"
+            className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+          >
+            Add Signature
+          </button>
+        )}
+
         <button
           onClick={onGeneratePDF}
           type="button"

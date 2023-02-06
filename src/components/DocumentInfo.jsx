@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { localeDate, localeDateTime } from '../helpers/dateHelper';
 
 export default function DocumentInfo() {
   const { documentDetail } = useSelector((state) => state);
@@ -6,14 +7,14 @@ export default function DocumentInfo() {
   return (
     <>
       <div className="overflow-y-auto scrollbar h-[80vh] pr-4">
-        {documentDetail.histories.map((el, i) => {
+        {documentDetail?.histories?.map((el, i) => {
           return (
             <div
               className=" mt-4 rounded-xl border-2 overflow-hidden"
               key={`histories-${i}`}
             >
               <div className="bg-sky-100 p-2 text-theme-3 tracking-wide">
-                <p>{el.createdAt}</p>
+                <p>{localeDate(el.createdAt)}</p>
               </div>
               <div className="flex justify-between mt-2 px-4">
                 <div>
@@ -22,7 +23,7 @@ export default function DocumentInfo() {
                 </div>
                 <div className="text-center">
                   <p className="text-sm mb-2 text-theme-3">Upload Date</p>
-                  <p>{el.createdAt}</p>
+                  <p>{localeDateTime(el.createdAt)}</p>
                 </div>
                 <div className="text-center">
                   <p className="text-sm mb-2 text-theme-3">Sender</p>

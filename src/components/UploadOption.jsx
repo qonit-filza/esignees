@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export default function UploadOption() {
   const navigate = useNavigate();
@@ -8,7 +8,7 @@ export default function UploadOption() {
         <div className=" w-fit h-fit border-2 rounded-xl flex justify-center p-6 text-center ">
           <div
             onClick={() => {
-              navigate("/upload/documents");
+              navigate('/upload/documents', { state: { type: 'selfSign' } });
             }}
             className="cursor-pointer rounded-xl p-3 hover:bg-sky-100 hover:text-theme-3 w-32"
           >
@@ -17,7 +17,7 @@ export default function UploadOption() {
           </div>
           <div
             onClick={() => {
-              navigate("/upload/documents");
+              navigate('/upload/documents', { state: { type: 'signRequest' } });
             }}
             className="cursor-pointer rounded-xl p-3 hover:bg-sky-100 hover:text-theme-3 w-32"
           >
@@ -28,7 +28,9 @@ export default function UploadOption() {
           </div>
           <div
             onClick={() => {
-              navigate("/upload/documents");
+              navigate('/upload/documents', {
+                state: { type: 'signWithOther' },
+              });
             }}
             className="cursor-pointer rounded-xl p-3 hover:bg-sky-100 hover:text-theme-3 w-32"
           >
