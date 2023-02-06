@@ -12,14 +12,14 @@ export default function SettingsPage() {
       <div className="flex gap-6 h-[80vh]">
         <div className="flex flex-col gap-4 border-2 p-6 rounded-xl relative pt-8 w-full">
           <button
-            onClick={changeToEditForm}
+            onClick={() => {changeToEditForm()}}
             className="absolute top-4 right-4 bg-theme-3 text-white hover:bg-theme-1 hover:text-white px-4 py-1 rounded-xl"
           >
             Edit
           </button>
           <div>
             <p className="text-sm">Full Name</p>
-            {editState ? (
+            {!editState ? (
               <p className="text-lg">John Claymore</p>
             ) : (
               <input
@@ -31,7 +31,7 @@ export default function SettingsPage() {
           <div>
             <p className="text-sm">Organization</p>
 
-            {editState ? (
+            {!editState ? (
               <p className="text-lg">PT Sumber Makmur Sentosa</p>
             ) : (
               <input
@@ -42,7 +42,7 @@ export default function SettingsPage() {
           </div>
           <div>
             <p className="text-sm">Email Address</p>
-            {editState ? (
+            {!editState ? (
               <p className="text-lg">johnclaymore@mail.com</p>
             ) : (
               <input
@@ -53,7 +53,7 @@ export default function SettingsPage() {
           </div>
           <div>
             <p className="text-sm">Phone Number</p>
-            {editState ? (
+            {!editState ? (
               <p className="text-lg">+6288080898</p>
             ) : (
               <input
@@ -64,7 +64,7 @@ export default function SettingsPage() {
           </div>
           <div>
             <p className="text-sm">Signature</p>
-            {editState ? (
+            {!editState ? (
               <div className="w-[40vh] rounded-xl  mt-2">
                 <img
                   src="https://static.cdn.wisestamp.com/wp-content/uploads/2020/08/Oprah-Winfrey-Signature-1.png"
