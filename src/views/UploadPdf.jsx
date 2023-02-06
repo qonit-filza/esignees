@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import SendPdf from "./SendPdf";
 // import axios from 'axios';
 // import { toDataURL } from '../helpers/imageHelper';
 
-function UploadPdf({}) {
+function UploadPdf({ showFromState, backToOption }) {
   const [file, setFile] = useState("");
   const navigate = useNavigate();
   const dispatcher = useDispatch();
@@ -43,7 +44,7 @@ function UploadPdf({}) {
   }
 
   const navigateRenderPdf = () => {
-    navigate("/render");
+    navigate("/upload/preview");
   };
 
   // const testButton = async () => {
@@ -59,17 +60,13 @@ function UploadPdf({}) {
   //     console.log(error);
   //   }
   // };
+
+
+
   return (
     <>
-      <section className="absolute inset-0 flex items-center justify-center bg-slate-400 bg-opacity-50 z-10">
-        <div className="w-[27rem] h-[14rem] p-4 flex flex-col gap-3 bg-white rounded-xl items-center justify-center relative">
-          <button
-          // onClick={backToOption()}
-            className="absolute top-2 right-2 text-red-400 hover:text-red-600"
-          >
-            <span className="material-symbols-outlined">cancel</span>
-          </button>
-          <h1 className="text-xl font-semibold text-center">Upload Document</h1>
+      <section className="flex items-center justify-center h-[80vh]">
+        <div className="w-[27rem] h-[14rem] p-4 flex flex-col gap-3 bg-white rounded-xl items-center justify-center">
           <div className="border-2 p-4 rounded-xl flex items-center justify-center">
             <input
               id="upload_pdf"
@@ -81,7 +78,7 @@ function UploadPdf({}) {
           <div></div>
           <div className="flex gap-2">
             <button
-            // onClick={backToOption()}
+              onClick={() => {navigate('/upload/options')}}
               type="button"
               className="bg-theme-3 px-4 py-1 rounded-lg text-white hover:text-theme-2 hover:bg-sky-400"
             >

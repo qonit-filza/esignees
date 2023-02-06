@@ -1,6 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Designer, Template, checkTemplate } from '@pdfme/ui';
 import { generate } from '@pdfme/generator';
+import SendPdf from './SendPdf'
+
+
 import {
   getFontsData,
   getTemplate,
@@ -144,7 +147,8 @@ function ViewPdf() {
         payload: blob,
       });
 
-      navigate('/send');
+      // navigate('/send');
+      handleSendPdf()
     }
   };
 
@@ -256,8 +260,15 @@ function ViewPdf() {
     }
   };
 
+  const [showSendPdf, setShowSendPdf] = useState(false)
+
+  const handleSendPdf = () => {
+    setShowSendPdf(!showSendPdf)
+  }
+
   return (
-    <div>
+    <div className='h-[80vh] overflow-y-auto rounded-xl border-2 '>
+    <SendPdf hideShowSendPdf={showSendPdf} closeSendPdf={handleSendPdf}/>
       <div className=" mx-14 mt-14 mb-4 flex justify-end">
         <button
           onClick={onAppendSignature}
