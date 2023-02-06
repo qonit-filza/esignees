@@ -1,24 +1,13 @@
 import { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import logo from "../assets/img/logo-3.png";
-import UploadPdf from "../views/UploadPdf";
-import UploadOptionModal from "./UploadOptionModal";
 
 export default function Sidebar() {
   const activeClass = "border-r-[3px] border-r-theme-3 font-semibold w-full";
-  const [showUploadModal, setShowUploadModal] = useState(false);
-
-  const handleModal = () => {
-    setShowUploadModal(!showUploadModal);
-  };
+  const navigate = useNavigate();
 
   return (
     <>
-      <UploadOptionModal
-        showState={showUploadModal}
-        openCloseModal={handleModal}
-      />
-
       <section className="w-[240px] pl-8 top-3 fixed ">
         <div className="mt-8">
           <img src={logo} alt="esignee_logo" className="w-32" />
@@ -27,7 +16,9 @@ export default function Sidebar() {
           <div>
             <div className="my-6">
               <button
-                onClick={() => handleModal()}
+                onClick={() => {
+                  navigate("/upload/options");
+                }}
                 className="bg-blue-500 hover:bg-blue-400 text-white rounded-lg px-4 py-2 shadow-md"
               >
                 Upload Document
@@ -36,18 +27,18 @@ export default function Sidebar() {
 
             <ul className="flex flex-col gap-3">
               <NavLink
-                to="/organization"
+                to="/accounts"
                 className={({ isActive }) =>
                   isActive
                     ? activeClass
                     : "hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full"
                 }
               >
-                <li className="flex items-center gap-2 cursor-pointer ">
+                <li className="flex items-center gap-2 cursor-pointer">
                   <span className="material-symbols-outlined">
-                    corporate_fare
+                    account_circle
                   </span>
-                  Organization
+                  My Profile
                 </li>
               </NavLink>
               <NavLink
@@ -91,21 +82,7 @@ export default function Sidebar() {
                   Sent
                 </li>
               </NavLink>
-              <NavLink
-                to="/settings"
-                className={({ isActive }) =>
-                  isActive
-                    ? activeClass
-                    : "hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full"
-                }
-              >
-                <li className="flex items-center gap-2 cursor-pointer">
-                  <span className="material-symbols-outlined">
-                    account_circle
-                  </span>
-                  My Profile
-                </li>
-              </NavLink>
+              
             </ul>
           </div>
           <ul className="flex flex-col gap-3">

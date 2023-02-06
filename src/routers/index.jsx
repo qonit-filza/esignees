@@ -1,96 +1,112 @@
-import Dashboard from '../views/Dashboard';
-import ViewPdf from '../views/ViewPdf.tsx';
-import Home from '../views/LandingPage';
-import Register from '../views/Register';
-import Login from '../views/Login';
-import AdminReg from '../views/adminRegister';
-import AdminLog from '../views/adminLogin';
-import UploadPdf from '../views/UploadPdf';
-import { createBrowserRouter } from 'react-router-dom';
-import DashboardLayout from '../layouts/DashboardLayout';
-import InboxPage from '../views/InboxPage';
-import SettingsPage from '../views/SettingsPage';
-import ContactPage from '../views/ContactPage';
-import SendPdf from '../views/SendPdf';
-import InboxDetails from '../views/InboxDetails'
+import Dashboard from "../views/Dashboard";
+import ViewPdf from "../views/ViewPdf.tsx";
+import Home from "../views/LandingPage";
+import Register from "../views/Register";
+import Login from "../views/Login";
+import AdminReg from "../views/adminRegister";
+import AdminLog from "../views/adminLogin";
+import UploadPdf from "../views/UploadPdf";
+import { createBrowserRouter } from "react-router-dom";
+import DashboardLayout from "../layouts/DashboardLayout";
+import InboxPage from "../views/InboxPage";
+import SettingsPage from "../views/SettingsPage";
+import ContactPage from "../views/ContactPage";
+import SendPdf from "../views/SendPdf";
+import InboxDetails from "../views/InboxDetails";
+import UploadLayout from "../layouts/UploadLayout";
+import UploadOption from "../components/UploadOption";
 
 const router = createBrowserRouter([
   {
     element: <DashboardLayout />,
     children: [
       {
-        path: '/',
+        path: "/",
         element: <Dashboard />,
       },
       {
-        path: '/contacts',
-        element: <ContactPage/>
+        path: "/contacts",
+        element: <ContactPage />,
       },
       {
-        path: '/organization',
-        element: <div>organization</div>
+        path: "/organization",
+        element: <div>organization</div>,
       },
       {
-        path: '/sent',
-        element: <div>sent</div>
+        path: "/sent",
+        element: <div>sent</div>,
       },
       {
-        path: '/inbox',
+        path: "/inbox",
         element: <InboxPage />,
       },
       {
-        path: '/inbox/:document_id',
-        element: <InboxDetails/>
+        path: "/inbox/:document_id",
+        element: <InboxDetails />,
       },
       {
-        path: '/settings',
+        path: "/accounts",
         element: <SettingsPage />,
       },
       {
-        path: '/upload',
-        element: <UploadPdf />,
+        path: "/upload",
+        element: <UploadLayout />,
+        children: [
+          {
+            path: "options",
+            element: <UploadOption />,
+          },
+          {
+            path: "documents",
+            element: <UploadPdf />,
+          },
+          {
+            path: "preview",
+            element: <ViewPdf />,
+          },
+        ],
       },
       {
-        path: '/home',
+        path: "/home",
         element: <Home />,
       },
       {
-        path: '/send',
+        path: "/send",
         element: <SendPdf />,
       },
     ],
   },
   {
-    path: '/login',
-    element: <Login/>,
-  },
-  {
-    path: '/user/register',
-    element: <Register />,
-  },
-  {
-    path: '/user/login',
+    path: "/login",
     element: <Login />,
   },
   {
-    path: '/admin/register',
+    path: "/user/register",
+    element: <Register />,
+  },
+  {
+    path: "/user/login",
+    element: <Login />,
+  },
+  {
+    path: "/admin/register",
     element: <AdminReg />,
   },
   {
-    path: '/admin/login',
+    path: "/admin/login",
     element: <AdminLog />,
   },
 
   {
-    path: '/upload',
+    path: "/upload",
     element: <UploadPdf />,
   },
   {
-    path: '/render',
+    path: "/render",
     element: <ViewPdf />,
   },
   {
-    path: '/send',
+    path: "/send",
     element: <></>,
   },
 ]);
