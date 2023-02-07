@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { localeDate, localeDateTime } from '../helpers/dateHelper';
 
 export default function DocumentInfo() {
   const { documentDetail } = useSelector((state) => state);
+  const { isRejected } = documentDetail;
 
   return (
     <>
@@ -38,6 +40,27 @@ export default function DocumentInfo() {
                 <p className="text-sm text-theme-3">Message</p>
                 <p>{el.message}</p>
               </div>
+
+              {isRejected && (
+                <>
+                  <hr class="h-px mb-5 bg-gray-200 border-0"></hr>
+                  <div
+                    className={
+                      'w-fit px-3 py-1 rounded-md text-xs tracking-wide font-semibold bg-red-200 ml-4 mb-4'
+                    }
+                  >
+                    Rejected
+                  </div>
+                  <div className="mt-2 px-4 pb-4">
+                    <p className="text-sm text-theme-3">Rejection Date</p>
+                    <p>{el.rejectionDate}</p>
+                  </div>
+                  <div className="mt-2 px-4 pb-4">
+                    <p className="text-sm text-theme-3">Rejection Message</p>
+                    <p>{el.rejectionMessage}</p>
+                  </div>
+                </>
+              )}
             </div>
           );
         })}

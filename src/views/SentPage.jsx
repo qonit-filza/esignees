@@ -84,13 +84,21 @@ export default function SentPage() {
                             `${
                               el.status === 'completed'
                                 ? 'bg-green-200'
-                                : 'bg-yellow-200'
+                                : `${
+                                    el.status === 'rejected'
+                                      ? 'bg-red-200'
+                                      : 'bg-yellow-200'
+                                  }`
                             }`
                           }
                         >
                           {el.status === 'completed'
                             ? 'Completed'
-                            : 'On process'}
+                            : `${
+                                el.status === 'rejected'
+                                  ? 'Rejected'
+                                  : 'On process'
+                              }`}
                         </div>
                       </td>
                       <td className="w-20">

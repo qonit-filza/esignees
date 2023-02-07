@@ -29,10 +29,10 @@ function ReceivePdf() {
   const [pdfLoad, setPdfLoad] = useState('');
 
   let showActionButton;
-  const { page, isCompleted } = documentDetail;
+  const { page, isCompleted, isRejected } = documentDetail;
 
   if (page === 'inbox') {
-    showActionButton = isCompleted ? false : true;
+    showActionButton = isCompleted || isRejected ? false : true;
   } else {
     showActionButton = false;
   }
@@ -274,8 +274,15 @@ function ReceivePdf() {
   };
 
   const [showReplyPdf, setShowReplyPdf] = useState(false);
+  const [replyPdfType, setReplyPdfType] = useState('sign');
 
   const handleReplyPdf = () => {
+    setReplyPdfType('sign');
+    setShowReplyPdf(!showReplyPdf);
+  };
+
+  const handleRejectPdf = () => {
+    setReplyPdfType('reject');
     setShowReplyPdf(!showReplyPdf);
   };
 
@@ -303,7 +310,7 @@ function ReceivePdf() {
         {showActionButton && (
           <>
             <button
-              onClick={onSendPdf}
+              onClick={handleRejectPdf}
               type="button"
               className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 "
             >
@@ -324,6 +331,7 @@ function ReceivePdf() {
       <ReplyPdf
         hideShowReplyPdf={showReplyPdf}
         closeReplyPdf={handleReplyPdf}
+        replyPdfType={replyPdfType}
       />
     </div>
   );

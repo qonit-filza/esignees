@@ -35,6 +35,7 @@ export default function DocumentDetails() {
       const index = data.data.Documents.length - 1;
 
       const isCompleted = data.data.status === 'completed' ? true : false;
+      const isRejected = data.data.status === 'rejected' ? true : false;
       let histories;
 
       const documents = data.data.Documents;
@@ -49,12 +50,23 @@ export default function DocumentDetails() {
           };
         }).reverse();
       } else {
-        histories = [
-          Object.assign(documents[0], {
-            message: data.data.message,
-            receiver: data.data.Receiver.name,
-          }),
-        ];
+        if (isRejected) {
+          histories = [
+            Object.assign(documents[0], {
+              message: data.data.message.split('!@#$%')[0],
+              receiver: data.data.Receiver.name,
+              rejectionDate: data.data.updatedAt,
+              rejectionMessage: data.data.message.split('!@#$%')[1],
+            }),
+          ];
+        } else {
+          histories = [
+            Object.assign(documents[0], {
+              message: data.data.message,
+              receiver: data.data.Receiver.name,
+            }),
+          ];
+        }
       }
 
       dispatcher({
@@ -67,6 +79,7 @@ export default function DocumentDetails() {
           previousMessage: data.data.message,
           isCompleted,
           histories,
+          isRejected,
         },
       });
 
