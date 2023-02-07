@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import SignaturePad from '../components/SignaturePad';
 
 export default function SettingsPage() {
   const [editState, setEditState] = useState(false);
+  const { user } = useSelector((state) => state.users);
 
   const changeToEditForm = () => {
     setEditState(!editState);
@@ -24,7 +27,7 @@ export default function SettingsPage() {
           <div>
             <p className="text-sm">Full Name</p>
             {!editState ? (
-              <p className="text-lg">John Claymore</p>
+              <p className="text-lg">{user.name}</p>
             ) : (
               <input
                 type="text"
@@ -36,7 +39,7 @@ export default function SettingsPage() {
             <p className="text-sm">Organization</p>
 
             {!editState ? (
-              <p className="text-lg">PT Sumber Makmur Sentosa</p>
+              <p className="text-lg">{user.company}</p>
             ) : (
               <input
                 type="text"
@@ -47,7 +50,7 @@ export default function SettingsPage() {
           <div>
             <p className="text-sm">Email Address</p>
             {!editState ? (
-              <p className="text-lg">johnclaymore@mail.com</p>
+              <p className="text-lg">{user.email}</p>
             ) : (
               <input
                 type="text"
@@ -58,7 +61,7 @@ export default function SettingsPage() {
           <div>
             <p className="text-sm">Phone Number</p>
             {!editState ? (
-              <p className="text-lg">+6288080898</p>
+              <p className="text-lg">{user.phone}</p>
             ) : (
               <input
                 type="text"
@@ -70,17 +73,17 @@ export default function SettingsPage() {
             <p className="text-sm">Signature</p>
             {!editState ? (
               <div className="w-[40vh] rounded-xl  mt-2">
-                <img
-                  src="https://static.cdn.wisestamp.com/wp-content/uploads/2020/08/Oprah-Winfrey-Signature-1.png"
-                  alt="user_signature"
-                />
-                <button className="text-xs mx-auto hover:underline text-red-400 w-fit">
+                <img src={user.signature} alt="user_signature" />
+                {/* <button className="text-xs mx-auto hover:underline text-red-400 w-fit">
                   Remove Signature
-                </button>
+                </button> */}
               </div>
             ) : (
+              // <div className="border-2 w-1/4 p-2 rounded-xl mt-2 border-theme-1">
+              //   <input type="file" />
+              // </div>
               <div className="border-2 w-1/4 p-2 rounded-xl mt-2 border-theme-1">
-                <input type="file" />
+                <SignaturePad />
               </div>
             )}
           </div>
