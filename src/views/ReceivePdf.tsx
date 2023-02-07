@@ -97,6 +97,28 @@ function ReceivePdf() {
     }
   };
 
+  const downloadFile = async () => {
+    try {
+      if (!documentDetail?.documentId) return;
+
+      const { data } = await axios.get(
+        `http://localhost:3000/documents/${documentDetail.documentId}`,
+        {
+          responseType: 'blob',
+          headers: {
+            access_token,
+          },
+        }
+      );
+
+      const file = new Blob([data], { type: 'application/pdf' });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   //generate visual signed docs and store on redux
   const onSendPdf = async () => {
     if (designer.current) {
@@ -300,7 +322,7 @@ function ReceivePdf() {
         )}
 
         <button
-          onClick={onGeneratePDF}
+          onClick={downloadFile}
           type="button"
           className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
         >
