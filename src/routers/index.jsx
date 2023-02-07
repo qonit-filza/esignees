@@ -20,6 +20,8 @@ import SubcriptionPage from '../views/SubcriptionPage';
 import SentPage from '../views/SentPage';
 import ReplyPdf from '../components/ReplyPdf';
 import VerifyDocumentPage from '../views/VerifyDocuments';
+import LoginPage from '../views/LoginPage';
+import RegisterPage from '../views/RegisterPage';
 
 const router = createBrowserRouter([
   {
@@ -99,7 +101,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <Login />,
+    element: <LoginPage />,
+  },
+  {
+    path: '/register',
+    element: <RegisterPage />,
   },
   {
     path: '/user/register',
