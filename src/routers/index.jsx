@@ -18,6 +18,8 @@ import UploadOption from '../components/UploadOption';
 import OrganizationPage from '../views/OrganizationPage';
 import SubcriptionPage from '../views/SubcriptionPage';
 import SentPage from '../views/SentPage';
+import ReplyPdf from '../views/ReplyPdf';
+import VerifyDocumentPage from '../views/VerifyDocuments';
 
 const router = createBrowserRouter([
   {
@@ -81,11 +83,19 @@ const router = createBrowserRouter([
         path: '/home',
         element: <Home />,
       },
+      // {
+      //   path: '/send',
+      //   element: <SendPdf />,
+      // },
       {
-        path: '/send',
-        element: <SendPdf />,
+        path: '/reply',
+        element: <ReplyPdf />,
       },
     ],
+  },
+  {
+    path: '/verify-documents',
+    element: <VerifyDocumentPage/>
   },
   {
     path: '/login',
@@ -104,10 +114,6 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: '/user/login',
-    element: <Login />,
-  },
-  {
     path: '/admin/register',
     element: <AdminReg />,
   },
@@ -115,7 +121,6 @@ const router = createBrowserRouter([
     path: '/admin/login',
     element: <AdminLog />,
   },
-
   {
     path: '/upload',
     element: <UploadPdf />,
@@ -123,10 +128,6 @@ const router = createBrowserRouter([
   {
     path: '/render',
     element: <ViewPdf />,
-  },
-  {
-    path: '/send',
-    element: <></>,
   },
 ]);
 
