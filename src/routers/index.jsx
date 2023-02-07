@@ -18,7 +18,7 @@ import UploadOption from '../components/UploadOption';
 import OrganizationPage from '../views/OrganizationPage';
 import SubcriptionPage from '../views/SubcriptionPage';
 import SentPage from '../views/SentPage';
-import ReplyPdf from '../views/ReplyPdf';
+import ReplyPdf from '../components/ReplyPdf';
 import VerifyDocumentPage from '../views/VerifyDocuments';
 
 const router = createBrowserRouter([
