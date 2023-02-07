@@ -11,8 +11,6 @@ export default function ContactPage() {
     setAddContact(!addContact);
   };
 
-
-
   return (
     <>
       <section className="mt-4 flex justify-between h-[80vh] gap-4">
