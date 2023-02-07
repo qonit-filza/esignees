@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import SendPdf from './SendPdf';
-// import axios from 'axios';
-// import { toDataURL } from '../helpers/imageHelper';
+import { useDispatch } from 'react-redux';
 
 function UploadPdf() {
   const [file, setFile] = useState('');
@@ -25,10 +22,6 @@ function UploadPdf() {
         payload: file.name.replace('.pdf', ''),
       });
     });
-
-    const date = new Date();
-
-    console.log(date.toLocaleString('ID-id'));
   }, [file]);
 
   const handleFileChange = (e) => {
@@ -48,20 +41,6 @@ function UploadPdf() {
   const navigateRenderPdf = () => {
     navigate('/upload/preview', { state: { type } });
   };
-
-  // const testButton = async () => {
-  //   try {
-  //     const { data } = await axios.get('http://localhost:3000/signatures', {
-  //       headers: {
-  //         access_token:
-  //           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc1NTEwOTE5fQ.r44hV91Xu1HXoNCzHFHJpZEuEDX63lUX2M5O7ipGkMs',
-  //       },
-  //     });
-  //     toDataURL(data.signature, (dataUrl) => console.log(dataUrl));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   return (
     <>
@@ -94,14 +73,6 @@ function UploadPdf() {
               Next
             </button>
           </div>
-
-          {/* <button
-            onClick={testButton}
-            type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 w-20 "
-          >
-            Test
-          </button> */}
         </div>
       </section>
     </>
