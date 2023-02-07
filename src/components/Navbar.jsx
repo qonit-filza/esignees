@@ -5,7 +5,7 @@ import UserPreview from './UserPreview';
 
 export default function Navbar() {
   const { pathname } = useLocation();
-  const { documentDetail } = useSelector((state) => state);
+  const { documentDetail } = useSelector((state) => state.documents);
 
   let pageTitle =
     pathname.charAt(1).toUpperCase() + pathname.slice(2) || 'Dashboard';

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from 'react';
 
 export default function SettingsPage() {
   const [editState, setEditState] = useState(false);
@@ -7,12 +7,16 @@ export default function SettingsPage() {
     setEditState(!editState);
   };
 
+  useEffect(() => {}, []);
+
   return (
     <>
       <div className="flex gap-6 h-[80vh]">
         <div className="flex flex-col gap-4 border-2 p-6 rounded-xl relative pt-8 w-full">
           <button
-            onClick={() => {changeToEditForm()}}
+            onClick={() => {
+              changeToEditForm();
+            }}
             className="absolute top-4 right-4 bg-theme-3 text-white hover:bg-theme-1 hover:text-white px-4 py-1 rounded-xl"
           >
             Edit

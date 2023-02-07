@@ -2,9 +2,9 @@ export default function UserPreview({ name, company }) {
   let nameInitial = name;
   if (nameInitial) {
     nameInitial = nameInitial
-      .split(" ")
+      .split(' ')
       .map((n, i, a) => (i === 0 || i + 1 === a.length ? n[0] : null))
-      .join("");
+      .join('');
   }
 
   return (
@@ -15,9 +15,9 @@ export default function UserPreview({ name, company }) {
         </div>
         <div>
           <p className="font-semibold tracking-wide">
-            {name || "John Claymore"}
+            {name || 'John Claymore'}
           </p>
-          <p className="text-xs">{company || "Hacktiv8"}</p>
+          <p className="text-xs">{company || 'Hacktiv8'}</p>
         </div>
       </div>
     </>
