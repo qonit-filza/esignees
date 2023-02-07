@@ -1,6 +1,6 @@
 import { useState } from "react";
 import images from "../assets/img/authentication_img.png";
-import logo from "../assets/img/logo-3.png"
+import NavbarPublic from "../components/NavbarPublic";
 
 export default function VerifyDocumentPage() {
   const [fileName, setFileName] = useState("");
@@ -10,16 +10,7 @@ export default function VerifyDocumentPage() {
   };
   return (
     <>
-      <nav className="pt-8 pb-6 px-12 flex shadow-md items-center justify-between">
-        <img src={logo} alt="esignee_logo" className="w-32 cursor-pointer"/>
-        <div className="">
-            <ul className="flex gap-6">
-                <li className="cursor-pointer hover:font-semibold">Home</li>
-                <li className="cursor-pointer hover:font-semibold">Verify Documents</li>
-                <li className="cursor-pointer hover:font-semibold">Sign In</li>
-            </ul>
-        </div>
-      </nav>
+      <NavbarPublic/>
       <div className="flex flex-col items-center justify-center h-[80vh] w-[35vw] mx-auto gap-6">
         <div className="text-center tracking-wide text-4xl">
           <p>Document Signature Verification</p>
@@ -48,7 +39,7 @@ export default function VerifyDocumentPage() {
           </label>
         </div>
 
-        <button className="bg-green-400 py-2 w-full rounded-full text-xl text-white tracking-wide hover:bg-green-300 shadow-sm">
+        <button className="bg-green-500 py-2 w-full rounded-full text-xl text-white tracking-wide hover:bg-green-400 shadow-sm">
           Verify
         </button>
       </div>
