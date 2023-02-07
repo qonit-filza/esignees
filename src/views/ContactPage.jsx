@@ -6,15 +6,8 @@ export default function ContactPage() {
   const [contactList, setContactList] = useState([]);
   const [contactDetails, setContactDetails] = useState({});
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await axios.get(
-        "https://jsonplaceholder.typicode.com/users"
-      );
-      setContactList(data);
-      setContactDetails(data[0]);
-    })();
-  }, []);
+
+
   return (
     <>
       <section className="mt-4 flex justify-between h-[80vh] gap-4">
@@ -41,7 +34,7 @@ export default function ContactPage() {
                       : "hover:bg-slate-100 px-4 py-3 rounded-lg"
                   }
                 >
-                  <UserPreview name={el.name} company={el.company.name} />
+                  <UserPreview name={el.User.name} company={el.User.jobTitle} />
                 </div>
               );
             })}

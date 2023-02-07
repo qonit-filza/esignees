@@ -1,5 +1,81 @@
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import subcriptionImage from "../assets/img/subcription.png";
 export default function SubcriptionPage() {
+  const [snapToken, setSnapToken] = useState('')
+  const [loading, isLoading] = useState(true)
+  const [amount, setAmount] = useState(1000)
+
+  useEffect(()=>{
+  isLoading(false)
+}, [])
+
+const handlePayment = () => {
+    if(!snapToken){
+    return;
+  }
+  window.snap.pay(snapToken, {
+    onSuccess: (result) => {
+      updateStatus()
+      console.log("success boss");
+    },
+    onPending: (result)=>{
+      console.log("pending sabar");
+    },
+    onError: (result)=>{
+      console.log("eror deh sabar");
+    }
+  })
+}
+
+const fetchSnapToken = async (price) => {
+  try {
+    const response = await fetch(`http://localhost:3000/companies/createMidtransToken/${price}`, {
+      method : "POST",
+      headers : {
+        'Content-Type' : 'application/json',
+        'access_token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjc1NzU3OTM3fQ.47m99YxzBILF3DEgUrWnGpt2hS58XLrX0-dm1MsSCCI'
+      },
+      // body : JSON.stringify({
+      //   amount : price,
+      //   order_id : "ESIGNEES_Transaction" + Math.floor(1000000 + Math.random()*9999999)
+      // })
+    })
+    const {token} = await response.json()
+    setSnapToken(token)
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateStatus = async () => {
+  try {
+    await fetch('http://localhost:3000/companies', {
+      method : "PUT",
+      headers : {
+        'Content-Type' : 'application/json',
+        'access_token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjc1NzU3OTM3fQ.47m99YxzBILF3DEgUrWnGpt2hS58XLrX0-dm1MsSCCI'
+      },
+    })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const pay = (value) => {
+  fetchSnapToken(value)
+  handlePayment()
+}
+
+
+
+if (loading){
+  return (
+    <>
+    <h1>LOADING COK</h1>
+    </>
+  )
+}
   return (
     <>
       <div className="h-[80vh] flex justify-center items-center gap-8">
@@ -15,7 +91,7 @@ export default function SubcriptionPage() {
             <p>Work Hours Support</p>
           </div>
           <div className="flex items-center w-full">
-            <button className="text-center bg-theme-3 px-4 rounded-xl py-2 mx-auto w-2/3 text-white hover:bg-sky-400">
+            <button className="text-center bg-theme-3 px-4 rounded-xl py-2 mx-auto w-2/3 text-white hover:bg-sky-400" onClick={() => pay(99999)}>
               Subscribe Now
             </button>
           </div>
@@ -33,7 +109,7 @@ export default function SubcriptionPage() {
             <p>24/7 Support</p>
           </div>
           <div className="flex items-center w-full">
-            <button className="text-center bg-theme-3 px-4 rounded-xl py-2 mx-auto w-2/3 text-white hover:bg-sky-400">
+            <button onClick={() => pay(249999)} className="text-center bg-theme-3 px-4 rounded-xl py-2 mx-auto w-2/3 text-white hover:bg-sky-400">
               Subscribe Now
             </button>
           </div>
@@ -50,7 +126,7 @@ export default function SubcriptionPage() {
             <p>24/7 Support</p>
           </div>
           <div className="flex items-center w-full">
-            <button className="text-center bg-theme-3 px-4 rounded-xl py-2 mx-auto w-2/3 text-white hover:bg-sky-400">
+            <button onClick={() => pay(459999)} className="text-center bg-theme-3 px-4 rounded-xl py-2 mx-auto w-2/3 text-white hover:bg-sky-400">
               Subscribe Now
             </button>
           </div>
