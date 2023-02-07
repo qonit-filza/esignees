@@ -82,13 +82,21 @@ export default function InboxPage() {
                             `${
                               el.status === 'completed'
                                 ? 'bg-green-200'
-                                : 'bg-yellow-200'
+                                : `${
+                                    el.status === 'rejected'
+                                      ? 'bg-red-200'
+                                      : 'bg-yellow-200'
+                                  }`
                             }`
                           }
                         >
                           {el.status === 'completed'
                             ? 'Completed'
-                            : 'Needs to sign'}
+                            : `${
+                                el.status === 'rejected'
+                                  ? 'Rejected'
+                                  : 'Needs to sign'
+                              }`}
                         </div>
                       </td>
                       <td className="w-20">

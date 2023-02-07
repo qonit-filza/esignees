@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 const access_token = localStorage.getItem('access_token');
 
-function ReplyPdf({ hideShowReplyPdf, closeReplyPdf }) {
+function ReplyPdf({ hideShowReplyPdf, closeReplyPdf, replyPdfType }) {
   const { replyDocument, documentDetail } = useSelector((state) => state);
   const [formValue, setFormValue] = useState({
     message: '',
@@ -40,6 +40,33 @@ function ReplyPdf({ hideShowReplyPdf, closeReplyPdf }) {
     navigate('/inbox');
   };
 
+  const onRejectPdf = async () => {
+    try {
+      const { data } = await axios.put(
+        `http://localhost:3000/sents/${documentDetail.messageId}/reject`,
+        {
+          message: documentDetail.previousMessage + '!@#$%' + formValue.message,
+        },
+        {
+          headers: {
+            access_token,
+          },
+        }
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleReplyReject = () => {
+    if (replyPdfType === 'sign') {
+      onSendPdf();
+    } else {
+      onRejectPdf();
+    }
+  };
+
   const handleClose = (e) => {
     if (e.target.id == 'modalContainer') closeReplyPdf();
   };
@@ -54,25 +81,30 @@ function ReplyPdf({ hideShowReplyPdf, closeReplyPdf }) {
         className=" flex items-center justify-center h-screen bg-slate-100 absolute inset-0 bg-opacity-50 z-10"
       >
         <div className="m-auto w-[30rem] border px-4 py-5 flex flex-col gap-2 bg-white rounded-xl">
-          <h1 className="font-semibold text-2xl text-center">Send document</h1>
+          <h1 className="font-semibold text-2xl text-center">
+            {replyPdfType === 'sign' ? 'Send document' : 'Reject document sign'}
+          </h1>
 
           <div className="flex flex-col gap-5">
-            <div>
-              <label
-                htmlFor="privateKey"
-                className="block mb-2 text-sm font-medium text-gray-900"
-              >
-                Private Key
-              </label>
-              <input
-                type="text"
-                id="privateKey"
-                name="privateKey"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                value={formValue.privateKey}
-                onChange={handleFormOnChange}
-              />
-            </div>
+            {replyPdfType === 'sign' && (
+              <div>
+                <label
+                  htmlFor="privateKey"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Private Key
+                </label>
+                <input
+                  type="text"
+                  id="privateKey"
+                  name="privateKey"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                  value={formValue.privateKey}
+                  onChange={handleFormOnChange}
+                />
+              </div>
+            )}
+
             <div>
               <label
                 htmlFor="message"
@@ -90,11 +122,15 @@ function ReplyPdf({ hideShowReplyPdf, closeReplyPdf }) {
               />
             </div>
             <button
-              onClick={onSendPdf}
+              onClick={handleReplyReject}
               type="button"
-              className="bg-theme-3 px-4 py-2 rounded-lg text-sky-50 font-semibold hover:text-white hover:bg-sky-400"
+              className={`px-4 py-2 rounded-lg text-sky-50 font-semibold hover:text-white ${
+                replyPdfType === 'sign'
+                  ? 'bg-theme-3 hover:bg-sky-400'
+                  : 'bg-red-500 hover:bg-red-600'
+              }`}
             >
-              SEND BACK
+              {replyPdfType === 'sign' ? 'SEND BACK' : 'REJECT'}
             </button>
           </div>
         </div>
