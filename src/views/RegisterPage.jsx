@@ -5,6 +5,7 @@ import RegisterCompany from '../components/RegisterCompany';
 import RegisterUser from '../components/RegisterUser';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 const baseUrl = 'http://localhost:3000';
 
 export default function RegisterPage() {
@@ -16,7 +17,6 @@ export default function RegisterPage() {
   const handleOnChange = (e) => {
     let newInput = { ...userData, [e.target.id]: e.target.value };
     setUserData(newInput);
-    console.log(userData);
   };
 
   const handleOnChangeUserKtp = (e) => {
@@ -24,7 +24,7 @@ export default function RegisterPage() {
   };
 
   const handleSubmit = () => {
-    if (!userData.companyInviteCode && !userData.nameCompany) {
+    if (!userData.companyInviteCode) {
       return setShowCompanyForm(true);
     }
     handleRegister();
@@ -41,10 +41,13 @@ export default function RegisterPage() {
       const { data } = await axios.post(`${baseUrl}/register`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      console.log(data);
       navigate('/login');
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data.message}`,
+      })
     }
   };
 
@@ -84,7 +87,7 @@ export default function RegisterPage() {
             showState={showCompanyForm}
             back={backToRegisterUser}
             handleOnChange={handleOnChange}
-            handleSubmit={handleSubmit}
+            handleSubmit={handleRegister}
           />
         </div>
       </section>

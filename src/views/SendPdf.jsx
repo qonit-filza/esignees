@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 const access_token = localStorage.getItem('access_token');
 
 function SendPdf({ hideShowSendPdf, closeSendPdf, type }) {
@@ -54,7 +55,11 @@ function SendPdf({ hideShowSendPdf, closeSendPdf, type }) {
       console.log(data);
       navigate('/sent');
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data.message}`,
+      })
     }
   };
 

@@ -32,7 +32,7 @@ const fetchSnapToken = async (price) => {
       method : "POST",
       headers : {
         'Content-Type' : 'application/json',
-        'access_token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjc1NzU3OTM3fQ.47m99YxzBILF3DEgUrWnGpt2hS58XLrX0-dm1MsSCCI'
+        'access_token' : localStorage.getItem("access_token")
       },
     })
     const {token} = await response.json()
@@ -48,7 +48,7 @@ const updateStatus = async () => {
       method : "PUT",
       headers : {
         'Content-Type' : 'application/json',
-        'access_token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjc1NzU3OTM3fQ.47m99YxzBILF3DEgUrWnGpt2hS58XLrX0-dm1MsSCCI'
+        'access_token' : localStorage.getItem("access_token")
       },
     })
   } catch (error) {
