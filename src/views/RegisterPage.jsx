@@ -1,12 +1,17 @@
-import { useState } from "react";
-import Footer from "../components/Footer";
-import NavbarPublic from "../components/NavbarPublic";
-import RegisterCompany from "../components/RegisterCompany";
-import RegisterUser from "../components/RegisterUser";
+import { useState } from 'react';
+import Footer from '../components/Footer';
+import NavbarPublic from '../components/NavbarPublic';
+import RegisterCompany from '../components/RegisterCompany';
+import RegisterUser from '../components/RegisterUser';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+const baseUrl = 'http://localhost:3000';
 
 export default function RegisterPage() {
   const [showCompanyForm, setShowCompanyForm] = useState(false);
   const [userData, setUserData] = useState({});
+  const [file, setFile] = useState('');
+  const navigate = useNavigate();
 
   const handleOnChange = (e) => {
     let newInput = { ...userData, [e.target.id]: e.target.value };
@@ -15,15 +20,32 @@ export default function RegisterPage() {
   };
 
   const handleOnChangeUserKtp = (e) => {
-    let newInput = { ...userData, [e.target.id]: e.target.files[0] };
-    setUserData(newInput);
-    console.log(userData);
+    setFile(e.target.files[0]);
   };
 
-
   const handleSubmit = () => {
-    if (!userData.companyInviteCode && !userData.companyName) return setShowCompanyForm(true)
-    console.log("REGISTER BERHASIL", userData);
+    if (!userData.companyInviteCode && !userData.nameCompany) {
+      return setShowCompanyForm(true);
+    }
+    handleRegister();
+  };
+
+  const handleRegister = async () => {
+    try {
+      const formData = new FormData();
+      for (const [name, value] of Object.entries(userData)) {
+        formData.append(name, value);
+      }
+      formData.append('file', file);
+
+      const { data } = await axios.post(`${baseUrl}/register`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      console.log(data);
+      navigate('/login');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const backToRegisterUser = () => {
@@ -36,13 +58,13 @@ export default function RegisterPage() {
       <section className="pb-12">
         <div className="w-fit mx-auto">
           <p className="text-center text-3xl font-semibold tracking-wide mb-2 ">
-            Register {!showCompanyForm ? "User" : "Company"}
+            Register {!showCompanyForm ? 'User' : 'Company'}
           </p>
           <p className="text-sm">
-            Already have an account?{" "}
+            Already have an account?{' '}
             <button
               onClick={() => {
-                navigate("/login");
+                navigate('/login');
               }}
               className="text-theme-3 hover:underline"
             >

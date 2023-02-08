@@ -16,7 +16,7 @@ export default function RegisterCompany({
                 handleOnChange(e);
               }}
               type="text"
-              id="companyName"
+              id="nameCompany"
               className="border-2 px-3 py-2 rounded-xl w-full outline-none border-slate-300 placeholder:text-sm"
               placeholder="Enter Your Company Name"
             />
@@ -28,7 +28,7 @@ export default function RegisterCompany({
                 handleOnChange(e);
               }}
               type="text"
-              id="companyLegalName"
+              id="legalName"
               className="border-2 px-3 py-2 rounded-xl w-full outline-none border-slate-300 placeholder:text-sm"
               placeholder="Enter Your Legal Name"
             />
@@ -52,7 +52,7 @@ export default function RegisterCompany({
                 handleOnChange(e);
               }}
               type="text"
-              id="companyEmail"
+              id="emailCompany"
               className="border-2 px-3 py-2 rounded-xl w-full outline-none border-slate-300 placeholder:text-sm"
               placeholder="Enter Your Email"
             />
@@ -65,7 +65,7 @@ export default function RegisterCompany({
                 handleOnChange(e);
               }}
               type="text"
-              id="companyPhoneNumber"
+              id="phoneCompany"
               className="border-2 px-3 py-2 rounded-xl w-full outline-none border-slate-300 placeholder:text-sm"
               placeholder="Enter Your Phone Number"
             />
@@ -91,10 +91,10 @@ export default function RegisterCompany({
               id="companySize"
               className="border-2 px-3 py-2 rounded-xl w-full outline-none border-slate-300 placeholder:text-sm"
             >
-              <option value="">50</option>
-              <option value="">100</option>
-              <option value="">200</option>
-              <option value="">300</option>
+              <option value="50">{'< 50'}</option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+              <option value="300">{'> 300'}</option>
             </select>
           </div>
         </div>
