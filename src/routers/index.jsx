@@ -1,6 +1,6 @@
 import Dashboard from "../views/Dashboard";
 import ViewPdf from "../views/ViewPdf.tsx";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router-dom";
 import LandingPage from "../views/LandingPage";
 import Register from "../views/Register";
 import Login from "../views/Login";
@@ -90,6 +90,12 @@ const router = createBrowserRouter([
         element: <ReplyPdf />,
       },
     ],
+    loader : () => {
+      if (!localStorage.access_token){
+        return redirect("/login")
+      }
+      return null
+    }
   },
   {
     path: "/verify-documents",
@@ -98,10 +104,22 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+    loader : () => {
+      if (localStorage.access_token){
+        return redirect("/inbox")
+      }
+      return null
+    }
   },
   {
     path: "/register",
     element: <RegisterPage />,
+    loader : () => {
+      if (localStorage.access_token){
+        return redirect("/inbox")
+      }
+      return null
+    }
   },
   {
     path: "/user/register",
