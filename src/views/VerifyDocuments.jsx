@@ -24,7 +24,7 @@ export default function VerifyDocumentPage() {
       formData.append('file', file);
 
       const { data } = await axios.post(
-        'http://localhost:3000/documents',
+        'http://localhost:3000/verify-document',
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data', access_token },
