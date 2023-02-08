@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/img/logo-3.png';
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 export default function Sidebar() {
   const activeClass = 'border-r-[3px] border-r-theme-3 font-semibold w-full';
@@ -9,8 +11,18 @@ export default function Sidebar() {
   const { user } = useSelector((state) => state.users);
 
   const handleLogout = () => {
-    localStorage.clear();
-    navigate('/login');
+    Swal.fire({
+      title: `Do you want to log out?`,
+      showCancelButton: true,
+      confirmButtonColor: 'rgb(59 129 246)',
+      cancelButtonColor: 'rgb(168 162 158)',
+      confirmButtonText: 'Log out',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.clear();
+        navigate('/login');
+      }
+    });
   };
 
   return (
