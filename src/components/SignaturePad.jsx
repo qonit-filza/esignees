@@ -29,7 +29,7 @@ const SignaturePad = () => {
   };
 
   return (
-    <div className="signature-pad w-full">
+    <div className="signature-pad">
       <div
         style={{ border: 'solid', borderRadius: 10, width: 525, height: 225 }}
       >

@@ -1,19 +1,83 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SignaturePad from '../components/SignaturePad';
+import ModalEditSignature from '../components/ModalEditSignature';
+import { fetchUserAction } from '../stores/actionCreator';
+const baseUrl = 'http://localhost:3000';
+const access_token = localStorage.getItem('access_token');
 
 export default function SettingsPage() {
-  const [editState, setEditState] = useState(false);
   const { user } = useSelector((state) => state.users);
+
+  const [editState, setEditState] = useState(false);
+  const [editSignature, setEditSignature] = useState(false);
+  const [editSignatureType, setEditSignatureType] = useState(
+    `${user.signature ? 'add' : 'edit'}`
+  );
+  const [editForm, setEditForm] = useState({
+    name: user.name,
+    jobTitle: user.jobTitle,
+    email: user.email,
+    phone: user.phone,
+  });
+  const dispatcher = useDispatch();
 
   const changeToEditForm = () => {
     setEditState(!editState);
+    resetForm();
   };
 
-  useEffect(() => {}, []);
+  const resetForm = () => {
+    setEditForm({
+      name: user.name,
+      jobTitle: user.jobTitle,
+      email: user.email,
+      phone: user.phone,
+    });
+  };
+
+  // const changeToEditSignature = () => {
+  //   setEditSignature(!editSignature);
+  // };
+
+  const changeToEditSignature = () => {
+    setEditSignature(!editSignature);
+  };
+
+  const handleSaveEdit = async () => {
+    try {
+      const { data } = await axios.put(`${baseUrl}/profiles`, editForm, {
+        headers: {
+          access_token,
+        },
+      });
+      console.log(data);
+      await dispatcher(fetchUserAction());
+      changeToEditForm();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleFormOnChange = (e) => {
+    const newValue = { ...editForm };
+    newValue[e.target.name] = e.target.value;
+    setEditForm(newValue);
+  };
+
+  const refetchUser = async () => {
+    await dispatcher(fetchUserAction());
+  };
 
   return (
     <>
+      <ModalEditSignature
+        hideShowEditSignature={editSignature}
+        closeEditSignature={changeToEditSignature}
+        refetchUser={refetchUser}
+        editSignatureType={editSignatureType}
+      />
       <div className="flex gap-6 h-[80vh]">
         <div className="flex flex-col gap-4 border-2 p-6 rounded-xl relative pt-8 w-full">
           <button
@@ -22,14 +86,41 @@ export default function SettingsPage() {
             }}
             className="absolute top-4 right-4 bg-theme-3 text-white hover:bg-theme-1 hover:text-white px-4 py-1 rounded-xl"
           >
-            Edit
+            {!editState ? 'Edit Profile' : 'Cancel'}
           </button>
+
+          {editState && (
+            <button
+              onClick={handleSaveEdit}
+              className="absolute top-4 right-28 bg-theme-3 text-white hover:bg-theme-1 hover:text-white px-4 py-1 rounded-xl"
+            >
+              Save
+            </button>
+          )}
+
           <div>
             <p className="text-sm">Full Name</p>
             {!editState ? (
               <p className="text-lg">{user.name}</p>
             ) : (
               <input
+                value={editForm.name}
+                onChange={handleFormOnChange}
+                name="name"
+                type="text"
+                className="border-2 rounded-xl px-2 py-1 outline-none border-theme-1 mt-1 w-1/4"
+              />
+            )}
+          </div>
+          <div>
+            <p className="text-sm">Job Title</p>
+            {!editState ? (
+              <p className="text-lg">{user.jobTitle}</p>
+            ) : (
+              <input
+                value={editForm.jobTitle}
+                onChange={handleFormOnChange}
+                name="jobTitle"
                 type="text"
                 className="border-2 rounded-xl px-2 py-1 outline-none border-theme-1 mt-1 w-1/4"
               />
@@ -42,8 +133,11 @@ export default function SettingsPage() {
               <p className="text-lg">{user.company}</p>
             ) : (
               <input
+                disabled
+                value={user.company}
+                name="company"
                 type="text"
-                className="border-2 rounded-xl px-2 py-1 outline-none border-theme-1 mt-1 w-1/4"
+                className="border-2 rounded-xl px-2 py-1 outline-none border-theme-1 mt-1 w-1/4 cursor-not-allowed"
               />
             )}
           </div>
@@ -53,7 +147,10 @@ export default function SettingsPage() {
               <p className="text-lg">{user.email}</p>
             ) : (
               <input
-                type="text"
+                value={editForm.email}
+                onChange={handleFormOnChange}
+                name="email"
+                type="email"
                 className="border-2 rounded-xl px-2 py-1 outline-none border-theme-1 mt-1 w-1/4"
               />
             )}
@@ -64,27 +161,42 @@ export default function SettingsPage() {
               <p className="text-lg">{user.phone}</p>
             ) : (
               <input
-                type="text"
+                value={editForm.phone}
+                onChange={handleFormOnChange}
+                name="phone"
+                type="number"
                 className="border-2 rounded-xl px-2 py-1 outline-none border-theme-1 mt-1 w-1/4"
               />
             )}
           </div>
           <div>
-            <p className="text-sm">Signature</p>
-            {!editState ? (
-              <div className="w-[40vh] rounded-xl  mt-2">
-                <img src={user.signature} alt="user_signature" />
-                {/* <button className="text-xs mx-auto hover:underline text-red-400 w-fit">
-                  Remove Signature
-                </button> */}
-              </div>
-            ) : (
-              // <div className="border-2 w-1/4 p-2 rounded-xl mt-2 border-theme-1">
-              //   <input type="file" />
-              // </div>
-              <div className="border-2 w-1/4 p-2 rounded-xl mt-2 border-theme-1">
-                <SignaturePad />
-              </div>
+            {!editState && (
+              <>
+                <div className=" flex flex-row text-sm gap-2">
+                  <p>Signature</p>
+                  <span
+                    onClick={changeToEditSignature}
+                    className=" bg-blue-200 px-2 rounded-full hover:bg-blue-300 cursor-pointer"
+                  >
+                    Edit
+                  </span>
+                </div>
+
+                <>
+                  <div className="w-[40vh] rounded-xl  mt-2">
+                    <img src={user.signature} alt="user_signature" />
+                  </div>
+                </>
+
+                <>
+                  {/* <div className="border-2 w-1/4 p-2 rounded-xl mt-2 border-theme-1">
+                    <input type="file" />
+                  </div>
+                  <div className="border-2 w-1/4 p-2 rounded-xl mt-2 border-theme-1">
+                    <SignaturePad />
+                  </div> */}
+                </>
+              </>
             )}
           </div>
         </div>
