@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 const baseUrl = 'http://localhost:3000';
 
 const actionUserSetUser = (payload) => {
@@ -20,12 +20,7 @@ export const fetchUserAction = () => {
 
       dispatch(actionUserSetUser(data));
     } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${err.response.data.message}`,
-      });
+      toast.error(error.response.data.message);
     }
   };
 };

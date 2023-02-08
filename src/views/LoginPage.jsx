@@ -1,33 +1,33 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Footer from "../components/Footer";
-import NavbarPublic from "../components/NavbarPublic";
-import axios from "axios";
-import Swal from "sweetalert2";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Footer from '../components/Footer';
+import NavbarPublic from '../components/NavbarPublic';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export default function LoginPage() {
   const [formValue, setFormValue] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const navigate = useNavigate();
 
   const handleFormOnChange = (e) => {
-    const newInput = {...formValue, [e.target.name] : e.target.value}
-    setFormValue(newInput)
+    const newInput = { ...formValue, [e.target.name]: e.target.value };
+    setFormValue(newInput);
   };
 
   const login = async (input) => {
     try {
       let { data } = await axios({
         url: `http://localhost:3000/login`,
-        method: "post",
+        method: 'post',
         data: input,
       });
-      localStorage.setItem("access_token", data.access_token);
-      navigate("/inbox")
+      localStorage.setItem('access_token', data.access_token);
+      navigate('/inbox');
     } catch (error) {
-      throw error
+      throw error;
     }
   };
 
@@ -37,11 +37,7 @@ export default function LoginPage() {
     login(formValue)
       .then(() => {})
       .catch((err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: `${err.response.data.message}`,
-        })
+        toast.error(err.response.data.message);
       });
   };
 
@@ -55,10 +51,10 @@ export default function LoginPage() {
               Login
             </p>
             <p className="text-sm">
-              Don't have an account?{" "}
+              Don't have an account?{' '}
               <button
                 onClick={() => {
-                  navigate("/register");
+                  navigate('/register');
                 }}
                 className="text-theme-3 hover:underline"
               >
@@ -108,7 +104,7 @@ export default function LoginPage() {
           </button>
         </div>
       </section>
-      <Footer/>
+      <Footer />
     </>
   );
 }

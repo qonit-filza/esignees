@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/img/logo-3.png';
-import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 
 export default function Sidebar() {

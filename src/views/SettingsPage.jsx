@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ModalEditSignature from '../components/ModalEditSignature';
 import { fetchUserAction } from '../stores/actionCreator';
-import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
+
 const baseUrl = 'http://localhost:3000';
 const access_token = localStorage.getItem('access_token');
 
@@ -51,16 +52,12 @@ export default function SettingsPage() {
           access_token,
         },
       });
-      console.log(data);
+      toast.success(data.message);
       await dispatcher(fetchUserAction());
       changeToEditForm();
     } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${error.response.data.message}`,
-      });
+      // console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 

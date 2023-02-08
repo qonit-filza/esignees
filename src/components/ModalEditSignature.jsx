@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import React, { useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
+import { toast } from 'react-toastify';
 const baseUrl = 'http://localhost:3000';
 
 const access_token = localStorage.getItem('access_token');
@@ -43,45 +44,51 @@ function ModalEditSignature({
   };
 
   const addSignature = async () => {
-    const dataUrl = sigPad.current.toDataURL();
+    try {
+      const dataUrl = sigPad.current.toDataURL();
 
-    const { data } = await axios.post(
-      'http://localhost:3000/signatures',
-      {
-        signatureImage: dataUrl,
-      },
-      {
-        headers: {
-          access_token,
+      const { data } = await axios.post(
+        'http://localhost:3000/signatures',
+        {
+          signatureImage: dataUrl,
         },
-      }
-    );
+        {
+          headers: {
+            access_token,
+          },
+        }
+      );
 
-    console.log(data);
-
-    await refetchUser();
-    closeEditSignature();
+      await refetchUser();
+      closeEditSignature();
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   const editSignature = async () => {
-    const dataUrl = sigPad.current.toDataURL();
+    try {
+      const dataUrl = sigPad.current.toDataURL();
 
-    const { data } = await axios.put(
-      'http://localhost:3000/signatures',
-      {
-        signatureImage: dataUrl,
-      },
-      {
-        headers: {
-          access_token,
+      const { data } = await axios.put(
+        'http://localhost:3000/signatures',
+        {
+          signatureImage: dataUrl,
         },
-      }
-    );
+        {
+          headers: {
+            access_token,
+          },
+        }
+      );
 
-    console.log(data);
-
-    await refetchUser();
-    closeEditSignature();
+      await refetchUser();
+      closeEditSignature();
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   const uploadSignature = async () => {
@@ -96,11 +103,12 @@ function ModalEditSignature({
           headers: { 'Content-Type': 'multipart/form-data', access_token },
         }
       );
-      console.log(data);
+
       await refetchUser();
       closeEditSignature();
+      toast.success(data.message);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -116,11 +124,12 @@ function ModalEditSignature({
           headers: { 'Content-Type': 'multipart/form-data', access_token },
         }
       );
-      console.log(data);
+
       await refetchUser();
       closeEditSignature();
+      toast.success(data.message);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 

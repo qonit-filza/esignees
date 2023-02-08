@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 const access_token = localStorage.getItem('access_token');
 
 function SendPdf({ hideShowSendPdf, closeSendPdf, type }) {
   const { originalName, signedPdf } = useSelector((state) => state.documents);
 
   const [formValue, setFormValue] = useState({
-    email: "",
-    message: "",
-    privateKey: "",
+    email: '',
+    message: '',
+    privateKey: '',
   });
 
   const navigate = useNavigate();
@@ -27,42 +27,38 @@ function SendPdf({ hideShowSendPdf, closeSendPdf, type }) {
       closeSendPdf();
 
       let status;
-      if (type === "selfSign") {
-        status = "completed";
-      } else if (type === "signWithOther") {
-        status = "completed-waiting";
-      } else if (type === "signRequest") {
-        status = "waiting";
+      if (type === 'selfSign') {
+        status = 'completed';
+      } else if (type === 'signWithOther') {
+        status = 'completed-waiting';
+      } else if (type === 'signRequest') {
+        status = 'waiting';
       }
 
       const formData = new FormData();
-      formData.append("docName", originalName);
-      formData.append("email", formValue.email);
-      formData.append("message", formValue.message);
-      formData.append("status", status);
-      formData.append("privateKey", formValue.privateKey);
-      formData.append("file", signedPdf, originalName);
+      formData.append('docName', originalName);
+      formData.append('email', formValue.email);
+      formData.append('message', formValue.message);
+      formData.append('status', status);
+      formData.append('privateKey', formValue.privateKey);
+      formData.append('file', signedPdf, originalName);
 
       const { data } = await axios.post(
-        "http://localhost:3000/sents",
+        'http://localhost:3000/sents',
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data", access_token },
+          headers: { 'Content-Type': 'multipart/form-data', access_token },
         }
       );
-      console.log(data);
-      navigate("/sent");
+      toast.success(data.message);
+      navigate('/sent');
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${error.response.data.message}`,
-      })
+      toast.error(error.response.data.message);
     }
   };
 
   const handleClose = (e) => {
-    if (e.target.id == "modalContainer") closeSendPdf();
+    if (e.target.id == 'modalContainer') closeSendPdf();
   };
 
   if (!hideShowSendPdf) return null;
@@ -95,7 +91,7 @@ function SendPdf({ hideShowSendPdf, closeSendPdf, type }) {
               />
             </div>
 
-            {(type === "selfSign" || type === "signWithOther") && (
+            {(type === 'selfSign' || type === 'signWithOther') && (
               <div>
                 <label
                   htmlFor="privateKey"
@@ -117,7 +113,9 @@ function SendPdf({ hideShowSendPdf, closeSendPdf, type }) {
                       info
                     </span>
                   </div>
-                  <p className="text-xs mt-1">Private key is generated on your verification email.</p>
+                  <p className="text-xs mt-1">
+                    Private key is generated on your verification email.
+                  </p>
                 </div>
               </div>
             )}

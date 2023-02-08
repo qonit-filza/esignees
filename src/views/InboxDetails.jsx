@@ -4,7 +4,7 @@ import DocumentInfo from '../components/DocumentInfo';
 import ReceivePdf from '../views/ReceivePdf';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 const access_token = localStorage.getItem('access_token');
 
 export default function DocumentDetails() {
@@ -78,12 +78,7 @@ export default function DocumentDetails() {
 
       setMessageData(data);
     } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${error.response.data.message}`,
-      });
+      toast.error(error.response.data.message);
     }
   };
 

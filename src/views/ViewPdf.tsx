@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { toDataURL } from '../helpers/imageHelper.js';
 import { useLocation } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 import React from 'react';
 const access_token = localStorage.getItem('access_token');
 
@@ -63,9 +63,7 @@ function ViewPdf() {
       const template = designer.current.getTemplate();
       const inputs = template.sampledata ?? [];
       // const font = await getFontsData();
-      console.log(template);
       const pdf = await generate({ template, inputs });
-      console.log(pdf);
       const blob = new Blob([pdf.buffer], { type: 'application/pdf' });
 
       dispatcher({
@@ -109,12 +107,8 @@ function ViewPdf() {
           }
         });
       } catch (error) {
-        console.log(error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: `${error.response.data.message}`,
-        });
+        // console.log(error);
+        toast.error(error.response.data.message);
       }
     }
   };

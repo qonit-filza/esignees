@@ -5,7 +5,7 @@ import RegisterCompany from '../components/RegisterCompany';
 import RegisterUser from '../components/RegisterUser';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 const baseUrl = 'http://localhost:3000';
 
 export default function RegisterPage() {
@@ -41,13 +41,11 @@ export default function RegisterPage() {
       const { data } = await axios.post(`${baseUrl}/register`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
+
+      toast.success(data.message, { autoClose: 5000 });
       navigate('/login');
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${error.response.data.message}`,
-      })
+      toast.error(error.response.data.message);
     }
   };
 

@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 export default function contactList({ name, company }) {
-
   let nameInitial = name;
   if (nameInitial) {
     nameInitial = nameInitial

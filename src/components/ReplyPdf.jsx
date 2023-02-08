@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 const access_token = localStorage.getItem('access_token');
 
 function ReplyPdf({ hideShowReplyPdf, closeReplyPdf, replyPdfType }) {
@@ -40,15 +41,10 @@ function ReplyPdf({ hideShowReplyPdf, closeReplyPdf, replyPdfType }) {
           headers: { 'Content-Type': 'multipart/form-data', access_token },
         }
       );
-      console.log(data);
       navigate('/inbox');
+      toast.success(data.message);
     } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${err.response.data.message}`,
-      });
+      toast.error(error.response.data.message);
     }
   };
 
@@ -65,14 +61,9 @@ function ReplyPdf({ hideShowReplyPdf, closeReplyPdf, replyPdfType }) {
           },
         }
       );
-      console.log(data);
+      toast.success(data.message);
     } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${err.response.data.message}`,
-      });
+      toast.error(error.response.data.message);
     }
   };
 

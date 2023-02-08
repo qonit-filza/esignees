@@ -7,7 +7,7 @@ import axios from 'axios';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toDataURL } from '../helpers/imageHelper.js';
-import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 const access_token = localStorage.getItem('access_token');
 
 function ReceivePdf() {
@@ -82,12 +82,7 @@ function ReceivePdf() {
         setPdfLoad(dataURL);
       });
     } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${error.response.data.message}`,
-      });
+      toast.error(error.response.data.message);
     }
   };
 
@@ -109,12 +104,7 @@ function ReceivePdf() {
       const fileURL = URL.createObjectURL(file);
       window.open(fileURL);
     } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${error.response.data.message}`,
-      });
+      toast.error(error.response.data.message);
     }
   };
 
@@ -167,12 +157,7 @@ function ReceivePdf() {
           }
         });
       } catch (error) {
-        console.log(error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: `${error.response.data.message}`,
-        });
+        toast.error(error.response.data.message);
       }
     }
   };

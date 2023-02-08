@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import subcriptionImage from '../assets/img/subcription.png';
+import { toast } from 'react-toastify';
 const access_token = localStorage.getItem('access_token');
 
 export default function SubcriptionPage() {
@@ -43,7 +44,7 @@ export default function SubcriptionPage() {
       const { token } = await response.json();
       setSnapToken(token);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -56,8 +57,9 @@ export default function SubcriptionPage() {
           access_token,
         },
       });
+      toast.success('Congrats, your subscription was successfully!');
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 

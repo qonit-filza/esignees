@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import emptyTable from '../assets/img/dog_walk.png';
 import { localeDate } from '../helpers/dateHelper';
-import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 
 export default function SentPage() {
   const navigate = useNavigate();
@@ -19,12 +19,8 @@ export default function SentPage() {
 
       setSentData(data.messageSender);
     } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${error.response.data.message}`,
-      });
+      // console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 

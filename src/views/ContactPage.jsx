@@ -2,16 +2,13 @@ import { useEffect, useState } from 'react';
 import UserPreview from '../components/UserPreview';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import ContactList from '../components/ContactList';
-import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 
 export default function ContactPage() {
   const [contactList, setContactList] = useState([]);
   const [contactDetails, setContactDetails] = useState({});
   const [addContact, setAddContact] = useState(false);
-
-  const contactDetailClass = 'border-2 rounded-xl w-full relative';
 
   const [input, setInput] = useState({
     email: '',
@@ -20,7 +17,6 @@ export default function ContactPage() {
     setAddContact(!addContact);
   };
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const newInput = { ...input, [e.target.name]: e.target.value };
@@ -42,11 +38,7 @@ export default function ContactPage() {
         contactDetailClass += ' hidden';
       }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${error.response.data.message}`,
-      });
+      toast.error(error.response.data.message);
     }
   };
 
@@ -63,6 +55,7 @@ export default function ContactPage() {
       });
       FetchContacts();
       setContactList(result);
+      toast.success('New contact added');
     } catch (error) {
       throw error;
     }
@@ -80,11 +73,7 @@ export default function ContactPage() {
         navigate('/contacts');
       })
       .catch((err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: `${err.response.data.message}`,
-        });
+        toast.error(err.response.data.message);
       });
   };
 
@@ -99,12 +88,9 @@ export default function ContactPage() {
         },
       });
       FetchContacts();
+      toast.success(result.message);
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${error.response.data.message}`,
-      });
+      toast.error(error.response.data.message);
     }
   };
 
