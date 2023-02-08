@@ -30,7 +30,7 @@ export default function UserPreview({ name, company }) {
           <p className="font-semibold">{nameInitial}</p>
         </div>
         <div>
-          <p className="font-semibold tracking-wide">
+          <p className="font-semibold tracking-wide hover:underline">
             {user.name || 'John Claymore'}
           </p>
           <p className="text-xs">{user.company || 'Hacktiv8'}</p>
