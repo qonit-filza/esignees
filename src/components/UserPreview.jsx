@@ -1,9 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserAction } from '../stores/actionCreator';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+const baseUrl = 'http://localhost:3000';
 
 export default function UserPreview({ name, company }) {
   const { user } = useSelector((state) => state.users);
+  const [doneCheckCompany, setDoneCheckCompany] = useState(false);
   const dispatcher = useDispatch();
 
   let nameInitial = user.name;
@@ -18,9 +22,36 @@ export default function UserPreview({ name, company }) {
     dispatcher(fetchUserAction());
   };
 
+  const checkCompanyStatus = async () => {
+    try {
+      const { data } = await axios.put(
+        `${baseUrl}/companies/check`,
+        {},
+        {
+          headers: {
+            access_token: localStorage.getItem('access_token'),
+          },
+        }
+      );
+
+      if (data?.message) {
+        toast.info(data.message, { autoClose: false });
+      }
+    } catch (error) {
+      // console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
+
   useEffect(() => {
     if (user.id) return;
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (doneCheckCompany) return;
+    checkCompanyStatus();
+    setDoneCheckCompany(true);
   }, []);
 
   return (
