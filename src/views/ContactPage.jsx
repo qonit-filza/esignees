@@ -44,7 +44,7 @@ const handleToAddContact = () => {
   // ADD CONTACT 
   const handleAddContact = async (input) => {
     try {
-      let {result} = await axios({
+       let {result} = await axios({
         url : `http://localhost:3000/contacts`, 
         method : "post",
         headers : {
