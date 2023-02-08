@@ -13,7 +13,6 @@ export default function LoginPage() {
   const handleFormOnChange = (e) => {
     const newInput = {...formValue, [e.target.name] : e.target.value}
     setFormValue(newInput)
-    console.log(newInput);
   };
 
   const login = async (input) => {
@@ -24,7 +23,7 @@ export default function LoginPage() {
         data: input,
       });
       localStorage.setItem("access_token", data.access_token);
-      navigate("/")
+      navigate("/inbox")
     } catch (error) {
       console.log(error);
     }

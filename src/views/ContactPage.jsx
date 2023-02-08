@@ -3,6 +3,7 @@ import UserPreview from "../components/UserPreview";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import ContactList from "../components/ContactList";
 
 export default function ContactPage() {
   const [contactList, setContactList] = useState([]);
@@ -34,7 +35,6 @@ const handleToAddContact = () => {
           'access_token' : localStorage.getItem("access_token")
         },
       })
-      console.log(data);
       setContactList(data)
     } catch (error) {
       console.log(error);
@@ -115,6 +115,7 @@ const handleToAddContact = () => {
           </div>
           <div className="overflow-y-auto scrollbar h-[84%] pr-2 mt-2 w-full">
             {contactList?.map((el, i) => {
+              <UserPreview name={el.User.name} company={el.User.jobTitle} />
               return (
                 <div
                   onClick={() => {
@@ -127,7 +128,7 @@ const handleToAddContact = () => {
                       : "hover:bg-slate-100 px-4 py-3 rounded-lg"
                   }
                 >
-                  <UserPreview name={el.User.name} company={el.User.jobTitle} />
+                  <ContactList name={el.User.name} company={el.User.jobTitle} />
                 </div>
               );
             })}
