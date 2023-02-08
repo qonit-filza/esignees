@@ -1,5 +1,5 @@
 import ViewPdf from '../views/ViewPdf.tsx';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, redirect } from 'react-router-dom';
 import UploadPdf from '../views/UploadPdf';
 import DashboardLayout from '../layouts/DashboardLayout';
 import InboxPage from '../views/InboxPage';
@@ -24,6 +24,13 @@ const router = createBrowserRouter([
   },
   {
     element: <DashboardLayout />,
+    loader: () => {
+      const isAuthenticated = localStorage.getItem('access_token');
+      if (!isAuthenticated) {
+        return redirect('/login');
+      }
+      return null;
+    },
     children: [
       {
         path: '/contacts',
@@ -87,10 +94,24 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
+    loader: () => {
+      const isAuthenticated = localStorage.getItem('access_token');
+      if (isAuthenticated) {
+        return redirect('/inbox');
+      }
+      return null;
+    },
     element: <LoginPage />,
   },
   {
     path: '/register',
+    loader: () => {
+      const isAuthenticated = localStorage.getItem('access_token');
+      if (isAuthenticated) {
+        return redirect('/inbox');
+      }
+      return null;
+    },
     element: <RegisterPage />,
   },
 ]);
