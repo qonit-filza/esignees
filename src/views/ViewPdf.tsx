@@ -138,7 +138,9 @@ function ViewPdf() {
       const template = designer.current.getTemplate();
       const inputs = template.sampledata ?? [];
       // const font = await getFontsData();
-      const pdf = await generate({ template, inputs, options: {} });
+      console.log(template);
+      const pdf = await generate({ template, inputs });
+      console.log(pdf);
       const blob = new Blob([pdf.buffer], { type: 'application/pdf' });
 
       dispatcher({
