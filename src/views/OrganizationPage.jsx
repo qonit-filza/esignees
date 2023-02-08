@@ -15,7 +15,6 @@ export default function OrganizationPage() {
         },
       });
       setCompany(data);
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
