@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import SignaturePad from '../components/SignaturePad';
 import ModalEditSignature from '../components/ModalEditSignature';
 import { fetchUserAction } from '../stores/actionCreator';
 const baseUrl = 'http://localhost:3000';

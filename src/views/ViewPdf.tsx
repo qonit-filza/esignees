@@ -2,28 +2,18 @@ import { useEffect, useRef, useState } from 'react';
 import { Designer, Template, checkTemplate } from '@pdfme/ui';
 import { generate } from '@pdfme/generator';
 import SendPdf from './SendPdf';
-import {
-  getFontsData,
-  getTemplate,
-  readFile,
-  cloneDeep,
-  getTemplateFromJsonFile,
-  downloadJsonFile,
-  renderPdf,
-  addSignature,
-} from '../helpers/pdfHelper';
+import { getTemplate, cloneDeep } from '../helpers/pdfHelper';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { toDataURL } from '../helpers/imageHelper.js'; //!fix later
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 const access_token = localStorage.getItem('access_token');
 
 function ViewPdf() {
   const designerRef = useRef<HTMLDivElement | null>(null);
   const designer = useRef<Designer | null>(null);
-  const { pdf, originalName } = useSelector((state: any) => state.documents);
+  const { pdf } = useSelector((state: any) => state.documents);
   const dispatcher = useDispatch();
-  const navigate = useNavigate();
   const { state } = useLocation();
   const { type } = state;
 
@@ -55,34 +45,6 @@ function ViewPdf() {
     // };
   }, [designerRef]);
 
-  function blobToDataURL(blob: Blob, callback: Function) {
-    var a = new FileReader();
-    a.onload = function (e) {
-      callback(e.target?.result);
-    };
-    a.readAsDataURL(blob);
-  }
-
-  const cleanRenderServer = async () => {
-    try {
-      const { data } = await axios.get('http://localhost:5001/view', {
-        responseType: 'blob',
-      });
-
-      readFile(data, 'dataURL').then(async (basePdf) => {
-        if (designer.current) {
-          designer.current.updateTemplate(
-            Object.assign(cloneDeep(renderPdf(data)), {
-              basePdf,
-            })
-          );
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const onSaveTemplate = (template?: Template) => {
     if (designer.current) {
       localStorage.setItem(
@@ -90,45 +52,6 @@ function ViewPdf() {
         JSON.stringify(template || designer.current.getTemplate())
       );
       alert('Saved!');
-    }
-  };
-
-  const onGeneratePDF = async () => {
-    if (designer.current) {
-      const template = designer.current.getTemplate();
-      const inputs = template.sampledata ?? [];
-      // const font = await getFontsData();
-      const pdf = await generate({ template, inputs, options: {} });
-      const blob = new Blob([pdf.buffer], { type: 'application/pdf' });
-      // console.log(pdf);
-      console.log(originalName);
-
-      // customRead(blob);
-
-      window.open(URL.createObjectURL(blob));
-    }
-  };
-
-  const onSendPdf2 = async () => {
-    if (designer.current) {
-      const template = designer.current.getTemplate();
-      const inputs = template.sampledata ?? [];
-      // const font = await getFontsData();
-      const pdf = await generate({ template, inputs, options: {} });
-      const blob = new Blob([pdf.buffer], { type: 'application/pdf' });
-
-      const formData = new FormData();
-      formData.append('docName', originalName);
-      formData.append('file', blob, originalName);
-
-      const { data } = await axios.post(
-        'http://localhost:5001/sign-pdf',
-        formData,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        }
-      );
-      console.log(data);
     }
   };
 
@@ -156,26 +79,6 @@ function ViewPdf() {
   const onAppendSignature = async () => {
     if (designer.current) {
       try {
-        // const { data } = await axios.get('http://localhost:5001/view', {
-        //   responseType: 'blob',
-        // });
-
-        // const { data: img } = await axios.get(
-        //   'http://localhost:5001/img-signature',
-        //   {
-        //     responseType: 'blob',
-        //   }
-        // );
-
-        // let imgDataUrl = '';
-        // blobToDataURL(img, (res: string) => {
-        //   imgDataUrl = res;
-        // });
-
-        // const { data: imgDataUrl } = await axios.get(
-        //   'http://localhost:5001/signature-dataurl'
-        // );
-
         const { data } = await axios.get('http://localhost:3000/signatures', {
           headers: {
             access_token,
@@ -203,58 +106,6 @@ function ViewPdf() {
             );
           }
         });
-
-        //*works
-        // if (designer.current) {
-        //   designer.current.updateTemplate(
-        //     Object.assign(cloneDeep(addSignature(pdf.basePdf, imgDataUrl)))
-        //   );
-        // }
-
-        //*experimental
-        // if (designer.current) {
-        //   const newTemplate = cloneDeep(designer.current.getTemplate());
-        //   const emptyObjIndex = newTemplate.sampledata.find((el: object) => {
-        //     return !Object.keys(el).length;
-        //   });
-        //   newTemplate.sampledata.splice(emptyObjIndex, 1);
-        //   console.log({ previous: newTemplate });
-
-        //   newTemplate.columns?.push('signature');
-
-        //   // if (newTemplate.sampledata.length === 1) {
-        //   //   newTemplate.sampledata = [{ signature: imgDataUrl }];
-        //   // } else {
-        //   newTemplate.sampledata?.push({ signature: imgDataUrl });
-        //   // }
-
-        //   newTemplate.schemas?.push({
-        //     signature: {
-        //       type: 'image',
-        //       position: { x: 90, y: 100 },
-        //       width: 24.15,
-        //       height: 37.42,
-        //     },
-        //   });
-
-        //   console.log({ new: newTemplate });
-
-        //   designer.current.updateTemplate(newTemplate);
-        // }
-
-        // console.log(pdf.basePdf);
-
-        // const blob = new Blob(pdf.basePdf);
-
-        // readFile(blob, 'dataURL').then(async (basePdf) => {
-        //   if (designer.current) {
-        //     designer.current.updateTemplate(
-        //       Object.assign(cloneDeep(addSignature(blob, imgDataUrl)), {
-        //         basePdf,
-        //       })
-        //     );
-        //   }
-        // });
       } catch (error) {
         console.log(error);
       }
