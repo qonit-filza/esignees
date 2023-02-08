@@ -12,9 +12,8 @@ export default function SettingsPage() {
 
   const [editState, setEditState] = useState(false);
   const [editSignature, setEditSignature] = useState(false);
-  const [editSignatureType, setEditSignatureType] = useState(
-    `${user.signature ? 'Add' : 'Edit'}`
-  );
+  const [editSignatureType, setEditSignatureType] = useState('');
+
   const [editForm, setEditForm] = useState({
     name: user.name,
     jobTitle: user.jobTitle,
@@ -36,6 +35,10 @@ export default function SettingsPage() {
       phone: user.phone,
     });
   };
+
+  useEffect(() => {
+    setEditSignatureType(`${user.signature ? 'Edit' : 'Add'}`);
+  }, [user]);
 
   // const changeToEditSignature = () => {
   //   setEditSignature(!editSignature);
@@ -178,14 +181,18 @@ export default function SettingsPage() {
                     onClick={changeToEditSignature}
                     className=" bg-blue-200 px-2 rounded-full hover:bg-blue-300 cursor-pointer"
                   >
-                    Edit
+                    {editSignatureType}
                   </span>
                 </div>
 
                 <>
-                  <div className="w-[40vh] rounded-xl  mt-2">
-                    <img src={user.signature} alt="user_signature" />
-                  </div>
+                  {user.signature ? (
+                    <div className="w-[40vh] rounded-xl  mt-2">
+                      <img src={user.signature} alt="user_signature" />
+                    </div>
+                  ) : (
+                    <p className=" text-lg">Start adding your signature</p>
+                  )}
                 </>
 
                 <>
