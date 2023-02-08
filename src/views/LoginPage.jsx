@@ -1,20 +1,45 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavbarPublic from "../components/NavbarPublic";
+import axios from "axios";
 
 export default function LoginPage() {
-  const [loginData, setLoginData] = useState({});
-
-  const handleOnChange = (e) => {
-    let inputData = { ...loginData, [e.target.id]: e.target.value };
-    setLoginData(inputData);
-  };
-
-  const sumbitLoginData = () => {
-    console.log(loginData);
-  };
-
+  const [formValue, setFormValue] = useState({
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
+
+  const handleFormOnChange = (e) => {
+    const newInput = {...formValue, [e.target.name] : e.target.value}
+    setFormValue(newInput)
+    console.log(newInput);
+  };
+
+  const login = async (input) => {
+    try {
+      let { data } = await axios({
+        url: `http://localhost:3000/login`,
+        method: "post",
+        data: input,
+      });
+      localStorage.setItem("access_token", data.access_token);
+      navigate("/")
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    login(formValue)
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <NavbarPublic />
@@ -42,9 +67,10 @@ export default function LoginPage() {
           <div className="flex items-center gap-1 mt-4 border-b-2 border-theme-2 ">
             <span className="material-symbols-outlined text-2xl">person</span>
             <input
-              onChange={handleOnChange}
+              onChange={handleFormOnChange}
               id="email"
               type="text"
+              name="email"
               className="outline-none rounded-xl px-3 py-1 "
               placeholder="Email"
             />
@@ -52,9 +78,10 @@ export default function LoginPage() {
           <div className="flex items-center gap-1 mt-6 border-b-2 border-theme-2 ">
             <span className="material-symbols-outlined text-2xl">lock</span>
             <input
-              onChange={handleOnChange}
+              onChange={handleFormOnChange}
               id="password"
               type="password"
+              name="password"
               className="outline-none rounded-xl px-3 py-1  w-full"
               placeholder="Password"
             />
@@ -68,7 +95,10 @@ export default function LoginPage() {
               Forgot your password?
             </p>
           </div>
-          <button onClick={sumbitLoginData} className="bg-theme-3 hover:bg-sky-400 text-white py-2 rounded-full mt-16 w-[60%] tracking-wide mx-auto">
+          <button
+            onClick={handleLogin}
+            className="bg-theme-3 hover:bg-sky-400 text-white py-2 rounded-full mt-16 w-[60%] tracking-wide mx-auto"
+          >
             Sign In
           </button>
         </div>
