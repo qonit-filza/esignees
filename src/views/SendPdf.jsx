@@ -51,7 +51,7 @@ function SendPdf({ hideShowSendPdf, closeSendPdf, type }) {
           headers: { 'Content-Type': 'multipart/form-data', access_token },
         }
       );
-      console.log('data');
+      console.log(data);
       navigate('/sent');
     } catch (error) {
       console.log(error);

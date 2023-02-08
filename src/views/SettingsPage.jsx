@@ -13,7 +13,7 @@ export default function SettingsPage() {
   const [editState, setEditState] = useState(false);
   const [editSignature, setEditSignature] = useState(false);
   const [editSignatureType, setEditSignatureType] = useState(
-    `${user.signature ? 'add' : 'edit'}`
+    `${user.signature ? 'Add' : 'Edit'}`
   );
   const [editForm, setEditForm] = useState({
     name: user.name,
