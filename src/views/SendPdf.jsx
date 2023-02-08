@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom';
 const access_token = localStorage.getItem('access_token');
 
 function SendPdf({ hideShowSendPdf, closeSendPdf, type }) {
-  const { pdf, originalName, signedPdf } = useSelector((state) => state);
+  const { pdf, originalName, signedPdf } = useSelector(
+    (state) => state.documents
+  );
 
   const [formValue, setFormValue] = useState({
     email: '',
@@ -49,7 +51,7 @@ function SendPdf({ hideShowSendPdf, closeSendPdf, type }) {
           headers: { 'Content-Type': 'multipart/form-data', access_token },
         }
       );
-      console.log('data');
+      console.log(data);
       navigate('/sent');
     } catch (error) {
       console.log(error);

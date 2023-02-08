@@ -1,11 +1,27 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUserAction } from '../stores/actionCreator';
+
 export default function UserPreview({ name, company }) {
-  let nameInitial = name;
+  const { user } = useSelector((state) => state.users);
+  const dispatcher = useDispatch();
+
+  let nameInitial = user.name;
   if (nameInitial) {
     nameInitial = nameInitial
-      .split(" ")
+      .split(' ')
       .map((n, i, a) => (i === 0 || i + 1 === a.length ? n[0] : null))
-      .join("");
+      .join('');
   }
+
+  const fetchData = () => {
+    dispatcher(fetchUserAction());
+  };
+
+  useEffect(() => {
+    if (user.id) return;
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -15,9 +31,9 @@ export default function UserPreview({ name, company }) {
         </div>
         <div>
           <p className="font-semibold tracking-wide">
-            {name || "John Claymore"}
+            {user.name || 'John Claymore'}
           </p>
-          <p className="text-xs">{company || "Hacktiv8"}</p>
+          <p className="text-xs">{user.company || 'Hacktiv8'}</p>
         </div>
       </div>
     </>

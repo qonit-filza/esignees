@@ -21,10 +21,11 @@ const access_token = localStorage.getItem('access_token');
 function ReceivePdf() {
   const designerRef = useRef<HTMLDivElement | null>(null);
   const designer = useRef<Designer | null>(null);
-  const { pdf, originalName } = useSelector((state: any) => state);
+  const { pdf, originalName, documentDetail } = useSelector(
+    (state: any) => state.documents
+  );
   const dispatcher = useDispatch();
   const navigate = useNavigate();
-  const { documentDetail } = useSelector((state: any) => state);
   const [isLoading, setIsLoading] = useState(true);
   const [pdfLoad, setPdfLoad] = useState('');
 

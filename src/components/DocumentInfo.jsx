@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { localeDate, localeDateTime } from '../helpers/dateHelper';
 
 export default function DocumentInfo() {
-  const { documentDetail } = useSelector((state) => state);
+  const { documentDetail } = useSelector((state) => state.documents);
   const { isRejected } = documentDetail;
 
   return (

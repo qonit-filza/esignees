@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom';
 const access_token = localStorage.getItem('access_token');
 
 function ReplyPdf({ hideShowReplyPdf, closeReplyPdf, replyPdfType }) {
-  const { replyDocument, documentDetail } = useSelector((state) => state);
+  const { replyDocument, documentDetail } = useSelector(
+    (state) => state.documents
+  );
   const [formValue, setFormValue] = useState({
     message: '',
     privateKey: '',

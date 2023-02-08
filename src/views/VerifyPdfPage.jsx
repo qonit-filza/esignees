@@ -13,7 +13,7 @@ function VerifyPdfPage() {
   });
   const [signature, setSignature] = useState('');
   const dispatcher = useDispatch();
-  const { pdf } = useSelector((state) => state);
+  const { pdf } = useSelector((state) => state.documents);
 
   useEffect(() => {
     if (!file) return;
