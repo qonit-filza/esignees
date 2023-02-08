@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 import NavbarPublic from "../components/NavbarPublic";
 import axios from "axios";
 
@@ -102,6 +103,7 @@ export default function LoginPage() {
           </button>
         </div>
       </section>
+      <Footer/>
     </>
   );
 }

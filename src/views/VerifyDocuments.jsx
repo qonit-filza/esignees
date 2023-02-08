@@ -3,6 +3,7 @@ import images from '../assets/img/authentication_img.png';
 import NavbarPublic from '../components/NavbarPublic';
 import axios from 'axios';
 import { localeDateTime } from '../helpers/dateHelper';
+import Footer from '../components/Footer';
 const access_token = localStorage.getItem('access_token');
 
 export default function VerifyDocumentPage() {
@@ -108,6 +109,7 @@ export default function VerifyDocumentPage() {
           </div>
         )}
       </div>
+      <Footer/>
     </>
   );
 }
