@@ -66,7 +66,7 @@ export default function VerifyDocumentPage() {
             className="flex rounded-full bg-white overflow-hidden border-2 items-center h-fit justify-between shadow-sm hover:bg-sky-50"
           >
             <div className="break-normal overflow-hidden px-4 text-lg">
-              {!file.name ? <p>Choose Your File</p> : <p>{file.name}</p>}
+              {!file?.name ? <p>Choose Your File</p> : <p>{file?.name}</p>}
             </div>
             <div className="bg-theme-3 px-3 py-2 text-white text-md">
               Upload File
@@ -101,7 +101,7 @@ export default function VerifyDocumentPage() {
         {results && (
           <div className="w-full">
             <div className=" flex flex-col justify-between px-4 w-full gap-2">
-              {results.map((el) => (
+              {results?.map((el) => (
                 <div className={'flex flex-row w-full justify-between'}>
                   <div>Signed by {el.signedBy}</div>
                   <div> {el.signedByEmail}</div>
