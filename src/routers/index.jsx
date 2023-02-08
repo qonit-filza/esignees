@@ -1,10 +1,5 @@
 import ViewPdf from '../views/ViewPdf.tsx';
 import { createBrowserRouter } from 'react-router-dom';
-import LandingPage from '../views/LandingPage';
-import Register from '../views/Register';
-import Login from '../views/Login';
-import AdminReg from '../views/adminRegister';
-import AdminLog from '../views/adminLogin';
 import UploadPdf from '../views/UploadPdf';
 import DashboardLayout from '../layouts/DashboardLayout';
 import InboxPage from '../views/InboxPage';
@@ -26,10 +21,6 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <LandingPagePublic />,
-  },
-  {
-    path: '/2',
-    element: <LandingPage />,
   },
   {
     element: <DashboardLayout />,
@@ -101,34 +92,6 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <RegisterPage />,
-  },
-  {
-    path: '/user/register',
-    element: <Register />,
-  },
-  {
-    path: '/user/login',
-    element: <Login />,
-  },
-  {
-    path: '/user/register',
-    element: <Register />,
-  },
-  {
-    path: '/admin/register',
-    element: <AdminReg />,
-  },
-  {
-    path: '/admin/login',
-    element: <AdminLog />,
-  },
-  {
-    path: '/upload',
-    element: <UploadPdf />,
-  },
-  {
-    path: '/render',
-    element: <ViewPdf />,
   },
 ]);
 
