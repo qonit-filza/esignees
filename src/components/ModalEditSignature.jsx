@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import React, { useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 const baseUrl = 'http://localhost:3000';

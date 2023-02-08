@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/img/logo-3.png';
 
 export default function Sidebar() {
   const activeClass = 'border-r-[3px] border-r-theme-3 font-semibold w-full';
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.users);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -31,21 +33,24 @@ export default function Sidebar() {
             </div>
 
             <ul className="flex flex-col gap-3">
-              <NavLink
-                to="/organization"
-                className={({ isActive }) =>
-                  isActive
-                    ? activeClass
-                    : 'hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full'
-                }
-              >
-                <li className="flex items-center gap-2 cursor-pointer">
-                  <span className="material-symbols-outlined">
-                    corporate_fare
-                  </span>
-                  Organization
-                </li>
-              </NavLink>
+              {user.role === 'admin' && (
+                <NavLink
+                  to="/organization"
+                  className={({ isActive }) =>
+                    isActive
+                      ? activeClass
+                      : 'hover:border-r-[3px] hover:border-r-theme-3 focus:font-semibold hover:font-semibold w-full'
+                  }
+                >
+                  <li className="flex items-center gap-2 cursor-pointer">
+                    <span className="material-symbols-outlined">
+                      corporate_fare
+                    </span>
+                    Organization
+                  </li>
+                </NavLink>
+              )}
+
               <NavLink
                 to="/accounts"
                 className={({ isActive }) =>
