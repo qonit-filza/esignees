@@ -1,6 +1,8 @@
 import Footer from "../components/Footer";
 import NavbarPublic from "../components/NavbarPublic";
 import logo from "../assets/img/logo-3.png";
+import imgReview from "../assets/img/reviews.webp";
+import dummyOrganization from "../assets/img/Organizations.jpg";
 
 export default function LandingPagePublic() {
   return (
@@ -75,11 +77,43 @@ export default function LandingPagePublic() {
                 tips_and_updates
               </span>
             </div>
-            <p className="text-2xl font-bold mt-2">
-            Continuous Innovation
-            </p>
+            <p className="text-2xl font-bold mt-2">Continuous Innovation</p>
             <p>
-              esignees are constantly innovate adding new feature to create more interesting features.
+              esignees are constantly innovate adding new feature to create more
+              interesting features.
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center justify-center gap-4 mt-8">
+          <p className="text-center font-bold text-4xl">
+            Over 1,000 Organizations use
+          </p>
+          <img src={logo} alt="" className="w-44" />
+        </div>
+        <div className="flex items-center justify-center pt-12 pb-16">
+          <img src={dummyOrganization} alt="image" className="w-10/12" />
+        </div>
+        <div className="flex items-center justify-center p-8 gap-12 w-8/12 mx-auto pb-12">
+          <img src={imgReview} alt="" className="w-[24rem]" />
+          <div className="flex flex-col gap-4">
+            <div>
+              <div className="w-20 h-20 overflow-hidden rounded-full mb-2">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzHQv_th9wq3ivQ1CVk7UZRxhbPq64oQrg5Q&usqp=CAU" alt="" />
+              </div>
+              <div>
+                <p>John Claymore</p>
+                <p className="text-slate-500 text-sm">
+                  Vice President of PT Suka Maju Jaya
+                </p>
+              </div>
+            </div>
+            <p className="text-2xl">
+              John Claymore, Vice President at The PT Suka Maju Jaya{" "}
+              <span className="text-3xl font-bold">
+                esignees to be better priced and exactly the solution we needed.
+              </span>{" "}
+              «We found egsinees has significantly lowered our enrollment
+              completion process by a day or two depending on the member.»
             </p>
           </div>
         </div>
