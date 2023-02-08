@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import SubcriptionPage from '../components/SubcriptionPage';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default function OrganizationPage() {
   const [company, setCompany] = useState({});
@@ -17,6 +18,12 @@ export default function OrganizationPage() {
       setCompany(data);
     } catch (error) {
       console.log(error);
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data.message}`,
+      });
     }
   };
 

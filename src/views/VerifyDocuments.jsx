@@ -4,6 +4,7 @@ import NavbarPublic from '../components/NavbarPublic';
 import axios from 'axios';
 import { localeDateTime } from '../helpers/dateHelper';
 import Footer from '../components/Footer';
+import Swal from 'sweetalert2';
 const access_token = localStorage.getItem('access_token');
 
 export default function VerifyDocumentPage() {
@@ -35,6 +36,12 @@ export default function VerifyDocumentPage() {
     } catch (error) {
       if (error.response.status === 400) {
         setInvalidDocError(error.response.data.message);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${error.response.data.message}`,
+        });
       }
     }
   };
@@ -109,7 +116,7 @@ export default function VerifyDocumentPage() {
           </div>
         )}
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

@@ -1,19 +1,20 @@
-import { useEffect, useState } from "react";
-import UserPreview from "../components/UserPreview";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import ContactList from "../components/ContactList";
+import { useEffect, useState } from 'react';
+import UserPreview from '../components/UserPreview';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import ContactList from '../components/ContactList';
+import Swal from 'sweetalert2';
 
 export default function ContactPage() {
   const [contactList, setContactList] = useState([]);
   const [contactDetails, setContactDetails] = useState({});
   const [addContact, setAddContact] = useState(false);
 
-  const contactDetailClass = "border-2 rounded-xl w-full relative";
+  const contactDetailClass = 'border-2 rounded-xl w-full relative';
 
   const [input, setInput] = useState({
-    email: "",
+    email: '',
   });
   const handleToAddContact = () => {
     setAddContact(!addContact);
@@ -31,21 +32,21 @@ export default function ContactPage() {
     try {
       let { data } = await axios({
         url: `http://localhost:3000/contacts`,
-        method: "get",
+        method: 'get',
         headers: {
-          access_token: localStorage.getItem("access_token"),
+          access_token: localStorage.getItem('access_token'),
         },
       });
       setContactList(data);
       if (contactList.length > 1) {
-        contactDetailClass += " hidden";
+        contactDetailClass += ' hidden';
       }
     } catch (error) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
         text: `${error.response.data.message}`,
-      })
+      });
     }
   };
 
@@ -54,48 +55,47 @@ export default function ContactPage() {
     try {
       let { result } = await axios({
         url: `http://localhost:3000/contacts`,
-        method: "post",
+        method: 'post',
         headers: {
-          access_token: localStorage.getItem("access_token"),
+          access_token: localStorage.getItem('access_token'),
         },
         data: input,
       });
       FetchContacts();
       setContactList(result);
     } catch (error) {
-      throw error
+      throw error;
     }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!input.email) {
-      return setError("Please Fill a email address");
+      return setError('Please Fill a email address');
     }
 
     handleAddContact(input)
-    .then(()=>{
-      FetchContacts()
-        navigate("/contacts")
-    })
-    .catch((err)=>{
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${err.response.data.message}`,
+      .then(() => {
+        FetchContacts();
+        navigate('/contacts');
       })
-    })
-  }
-
+      .catch((err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${err.response.data.message}`,
+        });
+      });
+  };
 
   //DELETE CONTACT
   const deleteContact = async (id) => {
     try {
       let { result } = await axios({
         url: `http://localhost:3000/contacts/${id}`,
-        method: "delete",
+        method: 'delete',
         headers: {
-          access_token: localStorage.getItem("access_token"),
+          access_token: localStorage.getItem('access_token'),
         },
       });
       FetchContacts();
@@ -104,7 +104,7 @@ export default function ContactPage() {
         icon: 'error',
         title: 'Oops...',
         text: `${error.response.data.message}`,
-      })
+      });
     }
   };
 
@@ -141,8 +141,8 @@ export default function ContactPage() {
                   key={i}
                   className={
                     contactDetails.id == el.id
-                      ? "hover:bg-slate-100 px-4 py-3 rounded-lg bg-slate-100"
-                      : "hover:bg-slate-100 px-4 py-3 rounded-lg"
+                      ? 'hover:bg-slate-100 px-4 py-3 rounded-lg bg-slate-100'
+                      : 'hover:bg-slate-100 px-4 py-3 rounded-lg'
                   }
                 >
                   <ContactList name={el.User.name} company={el.User.jobTitle} />
@@ -176,7 +176,13 @@ export default function ContactPage() {
             </form>
           </div>
         ) : (
-          <div className={contactList.length < 1 ? "border-2 rounded-xl w-full relative hidden" : "border-2 rounded-xl w-full relative"  }>
+          <div
+            className={
+              contactList.length < 1
+                ? 'border-2 rounded-xl w-full relative hidden'
+                : 'border-2 rounded-xl w-full relative'
+            }
+          >
             {/* {contactList.map((el, i) => { */}
             <div className="absolute top-4 right-4 bg-white shadow-md rounded-lg">
               <button
@@ -191,11 +197,11 @@ export default function ContactPage() {
               <div className="bg-theme-3 mx-auto w-24 h-24 rounded-full flex items-center justify-center border-4">
                 <p className="text-5xl font-semibold tracking-wide text-white">
                   {contactDetails?.User?.name
-                    ?.split(" ")
+                    ?.split(' ')
                     .map((n, i, a) =>
                       i === 0 || i + 1 === a.length ? n[0] : null
                     )
-                    .join("")}
+                    .join('')}
                 </p>
               </div>
               <p className=" text-2xl font-semibold mt-4">

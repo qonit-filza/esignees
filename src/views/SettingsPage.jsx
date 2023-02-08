@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ModalEditSignature from '../components/ModalEditSignature';
 import { fetchUserAction } from '../stores/actionCreator';
+import Swal from 'sweetalert2';
 const baseUrl = 'http://localhost:3000';
 const access_token = localStorage.getItem('access_token');
 
@@ -39,10 +40,6 @@ export default function SettingsPage() {
     setEditSignatureType(`${user.signature ? 'Edit' : 'Add'}`);
   }, [user]);
 
-  // const changeToEditSignature = () => {
-  //   setEditSignature(!editSignature);
-  // };
-
   const changeToEditSignature = () => {
     setEditSignature(!editSignature);
   };
@@ -59,6 +56,11 @@ export default function SettingsPage() {
       changeToEditForm();
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data.message}`,
+      });
     }
   };
 

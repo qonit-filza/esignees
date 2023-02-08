@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import emptyTable from '../assets/img/dog_walk.png';
 import { localeDate } from '../helpers/dateHelper';
+import Swal from 'sweetalert2';
 
 export default function InboxPage() {
   const navigate = useNavigate();
@@ -19,6 +20,12 @@ export default function InboxPage() {
       setInboxData(data.messageReceiver);
     } catch (error) {
       console.log(error);
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data.message}`,
+      });
     }
   };
 
