@@ -1,4 +1,3 @@
-import Dashboard from '../views/Dashboard';
 import ViewPdf from '../views/ViewPdf.tsx';
 import { createBrowserRouter } from 'react-router-dom';
 import LandingPage from '../views/LandingPage';

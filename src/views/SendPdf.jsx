@@ -5,9 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const access_token = localStorage.getItem('access_token');
 
 function SendPdf({ hideShowSendPdf, closeSendPdf, type }) {
-  const { pdf, originalName, signedPdf } = useSelector(
-    (state) => state.documents
-  );
+  const { originalName, signedPdf } = useSelector((state) => state.documents);
 
   const [formValue, setFormValue] = useState({
     email: '',
