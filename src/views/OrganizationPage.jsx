@@ -15,7 +15,6 @@ export default function OrganizationPage() {
           'access_token' : localStorage.getItem("access_token")
         },
       })
-      console.log(data);
       setCompany(data)
     } catch (error) {
       console.log(error);

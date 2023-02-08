@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import subcriptionImage from "../assets/img/subcription.png";
 export default function SubcriptionPage() {
   const [snapToken, setSnapToken] = useState('')
   const [loading, isLoading] = useState(true)
-  const [amount, setAmount] = useState(1000)
 
   useEffect(()=>{
   isLoading(false)
@@ -36,10 +34,6 @@ const fetchSnapToken = async (price) => {
         'Content-Type' : 'application/json',
         'access_token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjc1NzU3OTM3fQ.47m99YxzBILF3DEgUrWnGpt2hS58XLrX0-dm1MsSCCI'
       },
-      // body : JSON.stringify({
-      //   amount : price,
-      //   order_id : "ESIGNEES_Transaction" + Math.floor(1000000 + Math.random()*9999999)
-      // })
     })
     const {token} = await response.json()
     setSnapToken(token)
