@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import NavbarPublic from "../components/NavbarPublic";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function LoginPage() {
   const [formValue, setFormValue] = useState({
@@ -26,7 +27,7 @@ export default function LoginPage() {
       localStorage.setItem("access_token", data.access_token);
       navigate("/inbox")
     } catch (error) {
-      console.log(error);
+      throw error
     }
   };
 
@@ -36,7 +37,11 @@ export default function LoginPage() {
     login(formValue)
       .then(() => {})
       .catch((err) => {
-        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${err.response.data.message}`,
+        })
       });
   };
 

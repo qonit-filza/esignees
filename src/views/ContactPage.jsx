@@ -37,7 +37,11 @@ const handleToAddContact = () => {
       })
       setContactList(data)
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data.message}`,
+      })
     }
   }
 
@@ -55,7 +59,7 @@ const handleToAddContact = () => {
       FetchContacts()
       setContactList(result)
     } catch (error) {
-      console.log(error);
+      throw error
     }
   }
   const handleSubmit = (e) => {
@@ -71,7 +75,11 @@ const handleToAddContact = () => {
         navigate("/contacts")
     })
     .catch((err)=>{
-        console.log(err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${err.response.data.message}`,
+      })
     })
   }
 
@@ -87,7 +95,11 @@ const handleToAddContact = () => {
       })
       FetchContacts()
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data.message}`,
+      })
     }
   }
 
