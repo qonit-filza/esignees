@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 const access_token = localStorage.getItem('access_token');
 
 function ReplyPdf({ hideShowReplyPdf, closeReplyPdf, replyPdfType }) {
@@ -21,25 +22,34 @@ function ReplyPdf({ hideShowReplyPdf, closeReplyPdf, replyPdfType }) {
   };
 
   const onSendPdf = async () => {
-    const formData = new FormData();
-    formData.append('docName', documentDetail.docName);
-    formData.append('messageId', documentDetail.messageId);
-    formData.append(
-      'message',
-      documentDetail.previousMessage + '!@#$%' + formValue.message
-    );
-    formData.append('privateKey', formValue.privateKey);
-    formData.append('file', replyDocument, documentDetail.docName);
+    try {
+      const formData = new FormData();
+      formData.append('docName', documentDetail.docName);
+      formData.append('messageId', documentDetail.messageId);
+      formData.append(
+        'message',
+        documentDetail.previousMessage + '!@#$%' + formValue.message
+      );
+      formData.append('privateKey', formValue.privateKey);
+      formData.append('file', replyDocument, documentDetail.docName);
 
-    const { data } = await axios.put(
-      `http://localhost:3000/sents/${documentDetail.messageId}`,
-      formData,
-      {
-        headers: { 'Content-Type': 'multipart/form-data', access_token },
-      }
-    );
-    console.log(data);
-    navigate('/inbox');
+      const { data } = await axios.put(
+        `http://localhost:3000/sents/${documentDetail.messageId}`,
+        formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data', access_token },
+        }
+      );
+      console.log(data);
+      navigate('/inbox');
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${err.response.data.message}`,
+      });
+    }
   };
 
   const onRejectPdf = async () => {
@@ -58,6 +68,11 @@ function ReplyPdf({ hideShowReplyPdf, closeReplyPdf, replyPdfType }) {
       console.log(data);
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${err.response.data.message}`,
+      });
     }
   };
 

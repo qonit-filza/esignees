@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Swal from 'sweetalert2';
 const baseUrl = 'http://localhost:3000';
 
 const actionUserSetUser = (payload) => {
@@ -20,6 +21,11 @@ export const fetchUserAction = () => {
       dispatch(actionUserSetUser(data));
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${err.response.data.message}`,
+      });
     }
   };
 };

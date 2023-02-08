@@ -4,6 +4,7 @@ import DocumentInfo from '../components/DocumentInfo';
 import ReceivePdf from '../views/ReceivePdf';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 const access_token = localStorage.getItem('access_token');
 
 export default function DocumentDetails() {
@@ -25,15 +26,7 @@ export default function DocumentDetails() {
         },
       });
 
-      console.log(data);
-
-      // dispatcher({
-      //   type: 'pdf/setDocumentId',
-      //   payload: data.data.Documents[0].id,
-      // });
-
       const index = data.data.Documents.length - 1;
-
       const isCompleted = data.data.status === 'completed' ? true : false;
       const isRejected = data.data.status === 'rejected' ? true : false;
       let histories;
@@ -86,11 +79,15 @@ export default function DocumentDetails() {
       setMessageData(data);
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data.message}`,
+      });
     }
   };
 
   useEffect(() => {
-    console.log(pathname);
     fetchMessage();
   }, []);
 
