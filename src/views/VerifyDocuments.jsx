@@ -2,6 +2,7 @@ import { useState } from 'react';
 import images from '../assets/img/authentication_img.png';
 import NavbarPublic from '../components/NavbarPublic';
 import axios from 'axios';
+import Footer from '../components/Footer';
 const access_token = localStorage.getItem('access_token');
 
 export default function VerifyDocumentPage() {
@@ -69,6 +70,7 @@ export default function VerifyDocumentPage() {
           Verify
         </button>
       </div>
+      <Footer/>
     </>
   );
 }

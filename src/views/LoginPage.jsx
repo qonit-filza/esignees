@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 import NavbarPublic from "../components/NavbarPublic";
 
 export default function LoginPage() {
@@ -73,6 +74,7 @@ export default function LoginPage() {
           </button>
         </div>
       </section>
+      <Footer/>
     </>
   );
 }
