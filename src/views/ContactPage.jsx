@@ -35,9 +35,9 @@ export default function ContactPage() {
         },
       });
       setContactList(data);
-      if (contactList.length > 1) {
-        contactDetailClass += ' hidden';
-      }
+      // if (contactList.length > 1) {
+      //   contactDetailClass += ' hidden';
+      // }
     } catch (error) {
       toast.error(error.response.data.message);
     }
