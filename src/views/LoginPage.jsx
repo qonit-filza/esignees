@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import NavbarPublic from '../components/NavbarPublic';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+const baseUrl = 'https://api-esignees.ghzytp.site';
 
 export default function LoginPage() {
   const [formValue, setFormValue] = useState({
@@ -20,7 +21,7 @@ export default function LoginPage() {
   const login = async (input) => {
     try {
       let { data } = await axios({
-        url: `http://localhost:3000/login`,
+        url: `${baseUrl}/login`,
         method: 'post',
         data: input,
       });

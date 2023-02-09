@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 const access_token = localStorage.getItem('access_token');
+const baseUrl = 'https://api-esignees.ghzytp.site';
 
 function ReplyPdf({ hideShowReplyPdf, closeReplyPdf, replyPdfType }) {
   const { replyDocument, documentDetail } = useSelector(
@@ -35,7 +36,7 @@ function ReplyPdf({ hideShowReplyPdf, closeReplyPdf, replyPdfType }) {
       formData.append('file', replyDocument, documentDetail.docName);
 
       const { data } = await axios.put(
-        `http://localhost:3000/sents/${documentDetail.messageId}`,
+        `${baseUrl}/sents/${documentDetail.messageId}`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data', access_token },
@@ -51,7 +52,7 @@ function ReplyPdf({ hideShowReplyPdf, closeReplyPdf, replyPdfType }) {
   const onRejectPdf = async () => {
     try {
       const { data } = await axios.put(
-        `http://localhost:3000/sents/${documentDetail.messageId}/reject`,
+        `${baseUrl}/sents/${documentDetail.messageId}/reject`,
         {
           message: documentDetail.previousMessage + '!@#$%' + formValue.message,
         },

@@ -8,6 +8,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toDataURL } from '../helpers/imageHelper.js';
 import { toast } from 'react-toastify';
+const baseUrl = 'https://api-esignees.ghzytp.site';
 const access_token = localStorage.getItem('access_token');
 
 function ReceivePdf() {
@@ -69,7 +70,7 @@ function ReceivePdf() {
     try {
       if (!documentDetail?.documentId) return;
       const { data } = await axios.get(
-        `http://localhost:3000/documents/${documentDetail.documentId}`,
+        `${baseUrl}/documents/${documentDetail.documentId}`,
         {
           headers: {
             access_token,
@@ -91,7 +92,7 @@ function ReceivePdf() {
       if (!documentDetail?.documentId) return;
 
       const { data } = await axios.get(
-        `http://localhost:3000/documents/${documentDetail.documentId}`,
+        `${baseUrl}/documents/${documentDetail.documentId}`,
         {
           responseType: 'blob',
           headers: {
@@ -103,7 +104,7 @@ function ReceivePdf() {
       const file = new Blob([data], { type: 'application/pdf' });
       const fileURL = URL.createObjectURL(file);
       window.open(fileURL);
-    } catch (error:any) {
+    } catch (error: any) {
       toast.error(error.response.data.message);
     }
   };
@@ -130,7 +131,7 @@ function ReceivePdf() {
   const onAppendSignature = async () => {
     if (designer.current) {
       try {
-        const { data } = await axios.get('http://localhost:3000/signatures', {
+        const { data } = await axios.get(`${baseUrl}/signatures`, {
           headers: {
             access_token,
           },
@@ -156,7 +157,7 @@ function ReceivePdf() {
             );
           }
         });
-      } catch (error:any) {
+      } catch (error: any) {
         toast.error(error.response.data.message);
       }
     }

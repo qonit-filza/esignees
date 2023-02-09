@@ -6,7 +6,8 @@ import RegisterUser from '../components/RegisterUser';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-const baseUrl = 'http://localhost:3000';
+// const baseUrl = 'http://localhost:3000';
+const baseUrl = 'https://api-esignees.ghzytp.site';
 
 export default function RegisterPage() {
   const [showCompanyForm, setShowCompanyForm] = useState(false);

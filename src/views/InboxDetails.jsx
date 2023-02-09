@@ -5,6 +5,7 @@ import ReceivePdf from '../views/ReceivePdf';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+const baseUrl = 'https://api-esignees.ghzytp.site';
 const access_token = localStorage.getItem('access_token');
 
 export default function DocumentDetails() {
@@ -20,7 +21,7 @@ export default function DocumentDetails() {
 
   const fetchMessage = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:3000/sents/${id}`, {
+      const { data } = await axios.get(`${baseUrl}/sents/${id}`, {
         headers: {
           access_token,
         },

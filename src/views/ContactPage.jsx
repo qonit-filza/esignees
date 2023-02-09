@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ContactList from '../components/ContactList';
 import { toast } from 'react-toastify';
+const baseUrl = 'https://api-esignees.ghzytp.site';
 
 export default function ContactPage() {
   const [contactList, setContactList] = useState([]);
@@ -27,7 +28,7 @@ export default function ContactPage() {
   const FetchContacts = async () => {
     try {
       let { data } = await axios({
-        url: `http://localhost:3000/contacts`,
+        url: `${baseUrl}/contacts`,
         method: 'get',
         headers: {
           access_token: localStorage.getItem('access_token'),
@@ -46,7 +47,7 @@ export default function ContactPage() {
   const handleAddContact = async (input) => {
     try {
       let { result } = await axios({
-        url: `http://localhost:3000/contacts`,
+        url: `${baseUrl}/contacts`,
         method: 'post',
         headers: {
           access_token: localStorage.getItem('access_token'),
@@ -81,7 +82,7 @@ export default function ContactPage() {
   const deleteContact = async (id) => {
     try {
       let { result } = await axios({
-        url: `http://localhost:3000/contacts/${id}`,
+        url: `${baseUrl}/contacts/${id}`,
         method: 'delete',
         headers: {
           access_token: localStorage.getItem('access_token'),

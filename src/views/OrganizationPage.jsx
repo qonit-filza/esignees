@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import SubcriptionPage from '../components/SubcriptionPage';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+const baseUrl = 'https://api-esignees.ghzytp.site';
 
 export default function OrganizationPage() {
   const [company, setCompany] = useState({});
@@ -9,7 +10,7 @@ export default function OrganizationPage() {
   const FetchCompany = async () => {
     try {
       let { data } = await axios({
-        url: `http://localhost:3000/companies`,
+        url: `${baseUrl}/companies`,
         method: 'get',
         headers: {
           access_token: localStorage.getItem('access_token'),

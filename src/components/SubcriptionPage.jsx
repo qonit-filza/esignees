@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import subcriptionImage from '../assets/img/subcription.png';
 import { toast } from 'react-toastify';
 const access_token = localStorage.getItem('access_token');
+const baseUrl = 'https://api-esignees.ghzytp.site';
 
 export default function SubcriptionPage() {
   const [snapToken, setSnapToken] = useState('');
@@ -32,7 +33,7 @@ export default function SubcriptionPage() {
   const fetchSnapToken = async (price) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/companies/createMidtransToken/${price}`,
+        `${baseUrl}/companies/createMidtransToken/${price}`,
         {
           method: 'POST',
           headers: {
@@ -50,7 +51,7 @@ export default function SubcriptionPage() {
 
   const updateStatus = async () => {
     try {
-      await fetch('http://localhost:3000/companies', {
+      await fetch(`${baseUrl}/companies`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

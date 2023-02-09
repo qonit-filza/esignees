@@ -9,6 +9,7 @@ import { toDataURL } from '../helpers/imageHelper.js';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import React from 'react';
+const baseUrl = 'https://api-esignees.ghzytp.site';
 const access_token = localStorage.getItem('access_token');
 
 function ViewPdf() {
@@ -79,7 +80,7 @@ function ViewPdf() {
   const onAppendSignature = async () => {
     if (designer.current) {
       try {
-        const { data } = await axios.get('http://localhost:3000/signatures', {
+        const { data } = await axios.get(`${baseUrl}/signatures`, {
           headers: {
             access_token,
           },

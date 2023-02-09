@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import emptyTable from '../assets/img/dog_walk.png';
 import { localeDate } from '../helpers/dateHelper';
 import { toast } from 'react-toastify';
+const baseUrl = 'https://api-esignees.ghzytp.site';
 
 export default function InboxPage() {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ export default function InboxPage() {
 
   const fetchInboxes = async () => {
     try {
-      const { data } = await axios.get('http://localhost:3000/sents', {
+      const { data } = await axios.get(`${baseUrl}/sents`, {
         headers: {
           access_token: localStorage.getItem('access_token'),
         },

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { localeDateTime } from '../helpers/dateHelper';
 import Footer from '../components/Footer';
 import { toast } from 'react-toastify';
-const access_token = localStorage.getItem('access_token');
+const baseUrl = 'https://api-esignees.ghzytp.site';
 
 export default function VerifyDocumentPage() {
   const [file, setFile] = useState({});
@@ -26,10 +26,10 @@ export default function VerifyDocumentPage() {
       formData.append('file', file);
 
       const { data } = await axios.post(
-        'http://localhost:3000/verify-document',
+        `${baseUrl}/verify-document`,
         formData,
         {
-          headers: { 'Content-Type': 'multipart/form-data', access_token },
+          headers: { 'Content-Type': 'multipart/form-data' },
         }
       );
       setResults(data.detail);
@@ -45,7 +45,7 @@ export default function VerifyDocumentPage() {
   return (
     <>
       <NavbarPublic />
-      <div className="flex flex-col items-center justify-center h-[80vh] w-[35vw] mx-auto gap-6">
+      <div className="flex flex-col items-center justify-center h-[80vh] w-[35vw] mx-auto gap-4">
         <div className="text-center tracking-wide text-4xl">
           <p>Document Signature Verification</p>
         </div>
@@ -65,8 +65,14 @@ export default function VerifyDocumentPage() {
             htmlFor="img_upload"
             className="flex rounded-full bg-white overflow-hidden border-2 items-center h-fit justify-between shadow-sm hover:bg-sky-50"
           >
-            <div className="break-normal overflow-hidden px-4 text-lg">
-              {!file?.name ? <p>Choose Your File</p> : <p>{file?.name}</p>}
+            <div className="overflow-hidden px-4 text-sm h-8 flex">
+              {!file?.name ? (
+                <p className="my-auto">Choose Your File</p>
+              ) : (
+                <div className=" w-full overflow-hidden whitespace-nowrap px-4 my-auto">
+                  <p className="">{file?.name}</p>
+                </div>
+              )}
             </div>
             <div className="bg-theme-3 px-3 py-2 text-white text-md">
               Upload File
@@ -77,7 +83,7 @@ export default function VerifyDocumentPage() {
         {results ? (
           <button
             disabled
-            className="bg-green-500 py-2 w-full rounded-full text-xl text-white tracking-wide "
+            className="bg-green-500 py-3 w-full rounded-full text-xl text-white tracking-wide "
           >
             Document Verified - {results.length}
             {results.length > 1 ? ' Signatures' : ' Signature'} Found
@@ -100,9 +106,12 @@ export default function VerifyDocumentPage() {
 
         {results && (
           <div className="w-full">
-            <div className=" flex flex-col justify-between px-4 w-full gap-2">
-              {results?.map((el) => (
-                <div className={'flex flex-row w-full justify-between'}>
+            <div className=" flex flex-col justify-between px-4 w-full gap-2 text-xs">
+              {results?.map((el, i) => (
+                <div
+                  key={'check-' + i}
+                  className={'flex flex-row w-full justify-between'}
+                >
                   <div>Signed by {el.signedBy}</div>
                   <div> {el.signedByEmail}</div>
                   <div>{localeDateTime(el.signedDate)}</div>

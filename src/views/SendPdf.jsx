@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+const baseUrl = 'https://api-esignees.ghzytp.site';
 const access_token = localStorage.getItem('access_token');
 
 function SendPdf({ hideShowSendPdf, closeSendPdf, type }) {
@@ -43,13 +44,9 @@ function SendPdf({ hideShowSendPdf, closeSendPdf, type }) {
       formData.append('privateKey', formValue.privateKey);
       formData.append('file', signedPdf, originalName);
 
-      const { data } = await axios.post(
-        'http://localhost:3000/sents',
-        formData,
-        {
-          headers: { 'Content-Type': 'multipart/form-data', access_token },
-        }
-      );
+      const { data } = await axios.post(`${baseUrl}/sents`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data', access_token },
+      });
       toast.success(data.message);
       navigate('/sent');
     } catch (error) {

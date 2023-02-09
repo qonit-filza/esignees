@@ -3,7 +3,8 @@ import axios from 'axios';
 import React, { useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import { toast } from 'react-toastify';
-const baseUrl = 'http://localhost:3000';
+// const baseUrl = 'http://localhost:3000';
+const baseUrl = 'https://api-esignees.ghzytp.site';
 
 const access_token = localStorage.getItem('access_token');
 
@@ -48,7 +49,7 @@ function ModalEditSignature({
       const dataUrl = sigPad.current.toDataURL();
 
       const { data } = await axios.post(
-        'http://localhost:3000/signatures',
+        `${baseUrl}/signatures`,
         {
           signatureImage: dataUrl,
         },
@@ -72,7 +73,7 @@ function ModalEditSignature({
       const dataUrl = sigPad.current.toDataURL();
 
       const { data } = await axios.put(
-        'http://localhost:3000/signatures',
+        `${baseUrl}/signatures`,
         {
           signatureImage: dataUrl,
         },
