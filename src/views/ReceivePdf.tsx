@@ -81,7 +81,7 @@ function ReceivePdf() {
       blobToDataURL(data, (dataURL: string) => {
         setPdfLoad(dataURL);
       });
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.response.data.message);
     }
   };
@@ -103,7 +103,7 @@ function ReceivePdf() {
       const file = new Blob([data], { type: 'application/pdf' });
       const fileURL = URL.createObjectURL(file);
       window.open(fileURL);
-    } catch (error) {
+    } catch (error:any) {
       toast.error(error.response.data.message);
     }
   };
@@ -156,7 +156,7 @@ function ReceivePdf() {
             );
           }
         });
-      } catch (error) {
+      } catch (error:any) {
         toast.error(error.response.data.message);
       }
     }
